@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(fontFamily: 'Quicksand'),
       title: 'Sneakers Shop App',
       home: SplashScreen(),
+      // home: BodyProfile(),
     );
   }
 }
