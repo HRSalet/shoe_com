@@ -5,10 +5,10 @@ import 'package:sneakers_app/theme/custom_app_theme.dart';
 
 import '../../../../utils/app_methods.dart';
 import '../../../animation/fadeanimation.dart';
-import '../../../utils/constants.dart';
-import '../../../view/bag/widget/empty_list.dart';
 import '../../../data/dummy_data.dart';
 import '../../../models/models.dart';
+import '../../../utils/constants.dart';
+import '../../../view/bag/widget/empty_list.dart';
 
 class BodyBagView extends StatefulWidget {
   const BodyBagView({super.key});
@@ -29,20 +29,22 @@ class _BodyBagViewState extends State<BodyBagView>
       margin: EdgeInsets.symmetric(horizontal: 8.0),
       width: width,
       height: height,
-      child: Column(
-        children: [
-          topText(width, height),
-          Divider(color: Colors.grey),
-          itemsOnBag.isEmpty
-              ? EmptyList()
-              : Column(
-                children: [
-                  mainListView(width, height),
-                  SizedBox(height: 12),
-                  bottomInfo(width, height),
-                ],
-              ),
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            topText(width, height),
+            Divider(color: Colors.grey),
+            itemsOnBag.isEmpty
+                ? EmptyList()
+                : Column(
+                  children: [
+                    mainListView(width, height),
+                    SizedBox(height: 12),
+                    bottomInfo(width, height),
+                  ],
+                ),
+          ],
+        ),
       ),
     );
   }
