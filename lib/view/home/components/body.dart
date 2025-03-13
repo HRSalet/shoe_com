@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -20,7 +18,27 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   int selectedIndexOfCategory = 0;
-  int selectedIndexOfFeatured = 1;
+
+  List<ShoeModel> getFilteredShoes() {
+    String selectedCategory = categories[selectedIndexOfCategory];
+    if (selectedCategory == 'Nike') {
+      return nikeShoes;
+    } else if (selectedCategory == 'Adidas') {
+      return adidasShoes;
+    } else if (selectedCategory == 'Bata') {
+      return bataShoes;
+    } else if (selectedCategory == 'Puma') {
+      return pumaShoes;
+    } else if (selectedCategory == 'Campus') {
+      return CampusShoes;
+    } else if (selectedCategory == 'Woodland') {
+      return woodlandShoes;
+    } else if (selectedCategory == 'Reebok') {
+      return reebokShoes;
+    }
+    return nikeShoes;
+  }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -39,8 +57,8 @@ class _BodyState extends State<Body> {
     );
   }
 
-  // Top Categories Widget Components
-  topCategoriesWidget(width, height) {
+  // Top Categories Widget
+  Widget topCategoriesWidget(double width, double height) {
     return Row(
       children: [
         Expanded(
@@ -85,60 +103,21 @@ class _BodyState extends State<Body> {
     );
   }
 
-  // Middle Categories Widget Components
-  middleCategoriesWidget(width, height) {
+  // Middle Categories Widget
+  Widget middleCategoriesWidget(double width, double height) {
+    List<ShoeModel> filteredShoes = getFilteredShoes();
+
     return Row(
       children: [
-        // Expanded(
-        //   child: Container(
-        //     margin: EdgeInsets.symmetric(horizontal: 20),
-        //     width: width / 16,
-        //     height: height / 2.7,
-        //     child: RotatedBox(
-        //       quarterTurns: -1,
-        //       child: ListView.builder(
-        //         physics: BouncingScrollPhysics(),
-        //         itemCount: featured.length,
-        //         scrollDirection: Axis.horizontal,
-        //         itemBuilder: (context, index) {
-        //           return GestureDetector(
-        //             onTap: () {
-        //               setState(() {
-        //                 selectedIndexOfFeatured = index;
-        //               });
-        //             },
-        //             child: Padding(
-        //               padding: const EdgeInsets.symmetric(horizontal: 15),
-        //               child: Text(
-        //                 featured[index],
-        //                 style: TextStyle(
-        //                   fontSize: selectedIndexOfFeatured == index ? 19 : 17,
-        //                   color:
-        //                       selectedIndexOfFeatured == index
-        //                           ? AppConstantsColor.darkTextColor
-        //                           : AppConstantsColor.unSelectedTextColor,
-        //                   fontWeight:
-        //                       selectedIndexOfFeatured == index
-        //                           ? FontWeight.bold
-        //                           : FontWeight.w400,
-        //                 ),
-        //               ),
-        //             ),
-        //           );
-        //         },
-        //       ),
-        //     ),
-        //   ),
-        // ),
         Container(
           width: width,
           height: height / 2.4,
           child: ListView.builder(
             physics: BouncingScrollPhysics(),
             scrollDirection: Axis.horizontal,
-            itemCount: availableShoes.length,
+            itemCount: filteredShoes.length,
             itemBuilder: (ctx, index) {
-              ShoeModel model = availableShoes[index];
+              ShoeModel model = filteredShoes[index];
               return GestureDetector(
                 onTap: () {
                   Navigator.push(
@@ -174,14 +153,6 @@ class _BodyState extends State<Body> {
                                 model.name,
                                 style: AppThemes.homeProductName,
                               ),
-                              SizedBox(width: 110),
-                              IconButton(
-                                onPressed: () {},
-                                icon: Icon(
-                                  Icons.favorite_border,
-                                  color: Colors.white,
-                                ),
-                              ),
                             ],
                           ),
                         ),
@@ -203,7 +174,7 @@ class _BodyState extends State<Body> {
                         child: FadeAnimation(
                           delay: 2,
                           child: Text(
-                            "\$${model.price.toStringAsFixed(2)}",
+                            "\₹${model.price.toStringAsFixed(2)}",
                             style: AppThemes.homeProductPrice,
                           ),
                         ),
@@ -217,26 +188,13 @@ class _BodyState extends State<Body> {
                             tag: model.imgAddress,
                             child: RotationTransition(
                               turns: AlwaysStoppedAnimation(-30 / 360),
-                              child: Container(
-                                width: 250,
+                              child: Image.asset(
+                                model.imgAddress,
+                                width: 230,
                                 height: 230,
-                                child: Image(
-                                  image: AssetImage(model.imgAddress),
-                                ),
+                                fit: BoxFit.fitWidth,
                               ),
                             ),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 0,
-                        left: 150,
-                        child: IconButton(
-                          onPressed: () {},
-                          icon: FaIcon(
-                            FontAwesomeIcons.circleArrowRight,
-                            color: Colors.white,
-                            size: 25,
                           ),
                         ),
                       ),
@@ -251,8 +209,8 @@ class _BodyState extends State<Body> {
     );
   }
 
-  // More Text Widget Components
-  moreTextWidget() {
+  // More Text Widget
+  Widget moreTextWidget() {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20),
       child: Row(
@@ -260,7 +218,9 @@ class _BodyState extends State<Body> {
           Text("More", style: AppThemes.homeMoreText),
           Expanded(child: Container()),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              setState(() {});
+            },
             icon: FaIcon(CupertinoIcons.arrow_right, size: 27),
           ),
         ],
@@ -268,17 +228,19 @@ class _BodyState extends State<Body> {
     );
   }
 
-  // Last Categories Widget Components
-  lastCategoriesWidget(width, height) {
+  // Last Categories Widget (Updated to Show Filtered Shoes)
+  Widget lastCategoriesWidget(double width, double height) {
+    List<ShoeModel> filteredShoes = getFilteredShoes();
+
     return Container(
       width: width,
       height: height / 4,
       child: ListView.builder(
         physics: BouncingScrollPhysics(),
-        itemCount: availableShoes.length,
+        itemCount: filteredShoes.length,
         scrollDirection: Axis.horizontal,
         itemBuilder: (ctx, index) {
-          ShoeModel model = availableShoes[index];
+          ShoeModel model = filteredShoes[index];
           return GestureDetector(
             onTap: () {
               Navigator.push(
@@ -326,7 +288,8 @@ class _BodyState extends State<Body> {
                     ),
                   ),
                   Positioned(
-                    left: 140,
+                    left: 120,
+                    bottom: 0,
                     child: IconButton(
                       onPressed: () {},
                       icon: Icon(
@@ -342,47 +305,10 @@ class _BodyState extends State<Body> {
                       delay: 1.5,
                       child: RotationTransition(
                         turns: AlwaysStoppedAnimation(-15 / 360),
-                        child: Container(
+                        child: Image.asset(
+                          model.imgAddress,
                           width: width / 3,
                           height: height / 9,
-                          child: Hero(
-                            tag: model.model,
-                            child: Image(image: AssetImage(model.imgAddress)),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    top: 124,
-                    left: 45,
-                    child: FadeAnimation(
-                      delay: 2,
-                      child: Container(
-                        width: width / 4,
-                        height: height / 42,
-                        child: FittedBox(
-                          child: Text(
-                            "${model.name} ${model.model}",
-                            style: AppThemes.homeGridNameAndModel,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    top: 145,
-                    left: 45,
-                    child: FadeAnimation(
-                      delay: 2.2,
-                      child: Container(
-                        width: width / 4,
-                        height: height / 42,
-                        child: FittedBox(
-                          child: Text(
-                            "\$${model.price.toStringAsFixed(2)}",
-                            style: AppThemes.homeGridPrice,
-                          ),
                         ),
                       ),
                     ),

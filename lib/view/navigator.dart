@@ -7,6 +7,7 @@ import 'package:sneakers_app/utils/constants.dart';
 import 'package:sneakers_app/view/bag/bag_screen.dart';
 import 'package:sneakers_app/view/home/home_screen.dart';
 import 'package:sneakers_app/view/profile/profile_screen.dart';
+import 'package:sneakers_app/view/wishlist/wishlist_screen.dart';
 
 class MainNavigator extends StatefulWidget {
   @override
@@ -21,6 +22,7 @@ class _MainNavigatorState extends State<MainNavigator> {
     HomeScreen(),
     MyBagScreen(),
     Profile(),
+    WishlistScreen(),
   ];
 
   void _onPageChanged(int index) {
@@ -57,15 +59,10 @@ class _MainNavigatorState extends State<MainNavigator> {
         backgroundColor: Colors.white,
         scaleFactor: 0.1,
         items: [
-          CustomNavigationBarItem(
-            icon: Icon(CupertinoIcons.home),
-          ),
-          CustomNavigationBarItem(
-            icon: Icon(CupertinoIcons.shopping_cart),
-          ),
-          CustomNavigationBarItem(
-            icon: Icon(CupertinoIcons.person),
-          ),
+          CustomNavigationBarItem(icon: Icon(CupertinoIcons.home)),
+          CustomNavigationBarItem(icon: Icon(CupertinoIcons.shopping_cart)),
+          CustomNavigationBarItem(icon: Icon(CupertinoIcons.person)),
+          CustomNavigationBarItem(icon: Icon(CupertinoIcons.heart)),
         ],
         onTap: _onItemTapped,
         currentIndex: _selectedIndex,

@@ -1,13 +1,12 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:sneakers_app/theme/custom_app_theme.dart';
 
+import '../../../theme/custom_app_theme.dart';
 import '../../../utils/constants.dart';
+import '../../shoe_search_delegate.dart';
 
-PreferredSize? customAppBar() {
+PreferredSize? customAppBar(BuildContext context) {
   return PreferredSize(
     preferredSize: Size.fromHeight(70),
     child: AppBar(
@@ -15,10 +14,7 @@ PreferredSize? customAppBar() {
       backgroundColor: Colors.transparent,
       title: Padding(
         padding: EdgeInsets.only(top: 8.0),
-        child: Text(
-          "Discover",
-          style: AppThemes.homeAppBar
-        ),
+        child: Text("Discover", style: AppThemes.homeAppBar),
       ),
       actions: [
         Padding(
@@ -29,15 +25,16 @@ PreferredSize? customAppBar() {
               color: AppConstantsColor.darkTextColor,
               size: 25,
             ),
-            onPressed: () {},
+            onPressed: () {
+              showSearch(context: context, delegate: ShoeSearchDelegate());
+            },
           ),
         ),
-         
         Padding(
           padding: EdgeInsets.only(top: 8.0, right: 4),
           child: IconButton(
             icon: FaIcon(
-               CupertinoIcons.bell,
+              CupertinoIcons.bell,
               color: AppConstantsColor.darkTextColor,
               size: 25,
             ),

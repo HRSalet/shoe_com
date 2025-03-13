@@ -1,13 +1,12 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sized_box_for_whitespace, must_be_immutable, use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
-
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../../animation/fadeanimation.dart';
+import '../../../../../models/shoe_model.dart';
 import '../../../../../utils/app_methods.dart';
 import '../../../../../utils/constants.dart';
-import '../../../../../models/shoe_model.dart';
 import '../../../data/dummy_data.dart';
 import '../../../models/models.dart';
 import '../../../theme/custom_app_theme.dart';
@@ -41,14 +40,9 @@ class details extends State<DetailsBody> {
             SizedBox(
               height: 20,
               width: width / 1.1,
-              child: Divider(
-                thickness: 1.4,
-                color: Colors.grey,
-              ),
+              child: Divider(thickness: 1.4, color: Colors.grey),
             ),
-            SizedBox(
-              height: 10,
-            ),
+            SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Column(
@@ -56,25 +50,17 @@ class details extends State<DetailsBody> {
                   nameAndPrice(),
                   SizedBox(height: 10),
                   shoeInfo(width, height),
-                  SizedBox(
-                    height: 5,
-                  ),
+                  SizedBox(height: 5),
                   moreDetailsText(width, height),
                   sizeTextAndCountry(width, height),
-                  SizedBox(
-                    height: 10,
-                  ),
+                  SizedBox(height: 10),
                   endSizesAndButton(width, height),
-                  SizedBox(
-                    height: 20,
-                  ),
+                  SizedBox(height: 20),
                   materialButton(width, height),
-                  SizedBox(
-                    height: 20,
-                  ),
+                  SizedBox(height: 20),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -110,9 +96,10 @@ class details extends State<DetailsBody> {
             top: 100,
             left: 30,
             child: Hero(
-              tag: widget.isComeFromMoreSection
-                  ? widget.model.model
-                  : widget.model.imgAddress,
+              tag:
+                  widget.isComeFromMoreSection
+                      ? widget.model.model
+                      : widget.model.imgAddress,
               child: RotationTransition(
                 turns: AlwaysStoppedAnimation(-25 / 360),
                 child: Container(
@@ -122,7 +109,7 @@ class details extends State<DetailsBody> {
                 ),
               ),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -138,9 +125,7 @@ class details extends State<DetailsBody> {
         borderRadius: BorderRadius.circular(10),
         color: Colors.grey[300],
       ),
-      child: Image(
-        image: AssetImage(widget.model.imgAddress),
-      ),
+      child: Image(image: AssetImage(widget.model.imgAddress)),
     );
   }
 
@@ -167,8 +152,7 @@ class details extends State<DetailsBody> {
                 image: DecorationImage(
                   image: AssetImage(widget.model.imgAddress),
                   fit: BoxFit.cover,
-                  colorFilter: ColorFilter.mode(
-                      Colors.grey.withOpacity(1), BlendMode.darken),
+                  colorFilter: ColorFilter.mode(Colors.grey, BlendMode.darken),
                 ),
                 borderRadius: BorderRadius.circular(10),
               ),
@@ -218,8 +202,9 @@ class details extends State<DetailsBody> {
             Container(
               width: width / 4.5,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: Colors.grey, width: 1)),
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: Colors.grey, width: 1),
+              ),
               child: Center(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -228,62 +213,65 @@ class details extends State<DetailsBody> {
                       "Try it",
                       style: TextStyle(fontWeight: FontWeight.w800),
                     ),
-                    SizedBox(
-                      width: 8,
-                    ),
+                    SizedBox(width: 8),
                     RotatedBox(
-                        quarterTurns: -1,
-                        child: FaIcon(FontAwesomeIcons.shoePrints))
+                      quarterTurns: -1,
+                      child: FaIcon(FontAwesomeIcons.shoePrints),
+                    ),
                   ],
                 ),
               ),
             ),
-            SizedBox(
-              width: 15,
-            ),
+            SizedBox(width: 15),
             Container(
               width: width / 1.5,
               child: ListView.builder(
-                  physics: BouncingScrollPhysics(),
-                  itemCount: 4,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (ctx, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          _isSelectedSize = index;
-                        });
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(right: 5),
-                        width: width / 4.4,
-                        height: height / 13,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(
-                              color: _isSelectedSize == index
+                physics: BouncingScrollPhysics(),
+                itemCount: 4,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (ctx, index) {
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _isSelectedSize = index;
+                      });
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(right: 5),
+                      width: width / 4.4,
+                      height: height / 13,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                          color:
+                              _isSelectedSize == index
                                   ? Colors.black
                                   : Colors.grey,
-                              width: 1.5),
-                          color: _isSelectedSize == index
-                              ? Colors.black
-                              : AppConstantsColor.backgroundColor,
+                          width: 1.5,
                         ),
-                        child: Center(
-                          child: Text(
-                            sizes[index].toString(),
-                            style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: _isSelectedSize == index
+                        color:
+                            _isSelectedSize == index
+                                ? Colors.black
+                                : AppConstantsColor.backgroundColor,
+                      ),
+                      child: Center(
+                        child: Text(
+                          sizes[index].toString(),
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color:
+                                _isSelectedSize == index
                                     ? Colors.white
-                                    : Colors.black),
+                                    : Colors.black,
                           ),
                         ),
                       ),
-                    );
-                  }),
-            )
+                    ),
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),
@@ -304,9 +292,7 @@ class details extends State<DetailsBody> {
               fontSize: 22,
             ),
           ),
-          Expanded(
-            child: Container(),
-          ),
+          Expanded(child: Container()),
           Container(
             width: width / 9,
             child: TextButton(
@@ -320,9 +306,10 @@ class details extends State<DetailsBody> {
                 style: TextStyle(
                   fontWeight:
                       _isSelectedCountry ? FontWeight.w400 : FontWeight.bold,
-                  color: _isSelectedCountry
-                      ? Colors.grey
-                      : AppConstantsColor.darkTextColor,
+                  color:
+                      _isSelectedCountry
+                          ? Colors.grey
+                          : AppConstantsColor.darkTextColor,
                   fontSize: 19,
                 ),
               ),
@@ -341,9 +328,10 @@ class details extends State<DetailsBody> {
                 style: TextStyle(
                   fontWeight:
                       _isSelectedCountry ? FontWeight.bold : FontWeight.w400,
-                  color: _isSelectedCountry
-                      ? AppConstantsColor.darkTextColor
-                      : Colors.grey,
+                  color:
+                      _isSelectedCountry
+                          ? AppConstantsColor.darkTextColor
+                          : Colors.grey,
                   fontSize: 20,
                 ),
               ),
@@ -362,7 +350,8 @@ class details extends State<DetailsBody> {
         padding: EdgeInsets.only(right: 280),
         height: height / 26,
         child: FittedBox(
-            child: Text('MORE DETAILS', style: AppThemes.detailsMoreText)),
+          child: Text('MORE DETAILS', style: AppThemes.detailsMoreText),
+        ),
       ),
     );
   }
@@ -375,8 +364,9 @@ class details extends State<DetailsBody> {
         width: width,
         height: height / 9,
         child: Text(
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tincidunt laoreet enim, eget sodales ligula semper at. Sed id aliquet eros, nec vestibulum felis. Nunc maximus aliquet aliquam. Quisque eget sapien at velit cursus tincidunt. Duis tempor lacinia erat eget fermentum.",
-            style: AppThemes.detailsProductDescriptions),
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tincidunt laoreet enim, eget sodales ligula semper at. Sed id aliquet eros, nec vestibulum felis. Nunc maximus aliquet aliquam. Quisque eget sapien at velit cursus tincidunt. Duis tempor lacinia erat eget fermentum.",
+          style: AppThemes.detailsProductDescriptions,
+        ),
       ),
     );
   }
@@ -396,8 +386,10 @@ class details extends State<DetailsBody> {
             ),
           ),
           Expanded(child: Container()),
-          Text('\$${widget.model.price.toStringAsFixed(2)}',
-              style: AppThemes.detailsProductPrice),
+          Text(
+            '\₹${widget.model.price.toStringAsFixed(2)}',
+            style: AppThemes.detailsProductPrice,
+          ),
         ],
       ),
     );

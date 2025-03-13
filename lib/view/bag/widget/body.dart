@@ -99,7 +99,6 @@ class _BodyBagViewState extends State<BodyBagView>
         itemCount: itemsOnBag.length,
         itemBuilder: (ctx, index) {
           ShoeModel currentBagItem = itemsOnBag[index];
-
           return FadeAnimation(
             delay: 1.5 * index / 4,
             child: Container(
@@ -107,36 +106,23 @@ class _BodyBagViewState extends State<BodyBagView>
               width: width,
               height: height / 5.2,
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Container(
                     width: width / 2.8,
                     height: height / 5.7,
                     child: Stack(
                       children: [
-                        Positioned(
-                          top: 20,
-                          left: 10,
-                          child: Container(
-                            width: width / 3.6,
-                            height: height / 7.1,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(25),
-                              color: Colors.grey[350],
-                            ),
+                        Container(
+                          width: width / 3.6,
+                          height: height / 7.1,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(25),
+                            color: Colors.grey[350],
                           ),
-                        ),
-                        Positioned(
-                          right: 2,
-                          bottom: 15,
-                          child: RotationTransition(
-                            turns: AlwaysStoppedAnimation(-40 / 360),
-                            child: Container(
-                              width: 140,
-                              height: 140,
-                              child: Image(
-                                image: AssetImage(currentBagItem.imgAddress),
-                              ),
-                            ),
+                          child: Image(
+                            fit: BoxFit.contain,
+                            image: AssetImage(currentBagItem.imgAddress),
                           ),
                         ),
                       ],
@@ -146,7 +132,7 @@ class _BodyBagViewState extends State<BodyBagView>
                     padding: const EdgeInsets.only(left: 40),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
                           currentBagItem.model,

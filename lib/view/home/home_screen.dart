@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../../utils/constants.dart';
-import 'components/body.dart';
 import 'components/app_bar.dart';
+import 'components/body.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -12,7 +12,7 @@ class HomeScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: AppConstantsColor.backgroundColor,
-        appBar: customAppBar(),
+        appBar: customAppBar(context),
         body: const Body(),
       ),
     );

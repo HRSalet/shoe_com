@@ -65,6 +65,13 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/images/nike/
+    - assets/images/adidas/
+    - assets/images/bata/
+    - assets/images/puma/
+    - assets/images/campus/
+    - assets/images/woodland/
+    - assets/images/reebok/
 
   fonts:
     - family: OpenSans
