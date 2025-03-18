@@ -79,9 +79,53 @@ class _BodyBagViewState extends State<BodyBagView>
         minWidth: width / 1.2,
         height: height / 15,
         color: AppConstantsColor.materialButtonColor,
-        onPressed: () {},
+        onPressed: () {
+          //print("Button Pressed");
+          showModalBottomSheet(
+            backgroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
+              ),
+            ),
+            context: context,
+            builder: (context) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    padding: EdgeInsets.only(top: 10),
+                    width: 350,
+                    child: Center(
+                      child: Text(
+                        'Choose payment method',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  ListTile(
+                    title: Text('Cash on delivery'),
+                    trailing: Icon(Icons.arrow_forward_ios),
+                    leading: Icon(Icons.money_outlined),
+                  ),
+                  SizedBox(height: 20),
+                  ListTile(
+                    title: Text('Paypal'),
+                    trailing: Icon(Icons.arrow_forward_ios),
+                    leading: Icon(Icons.paypal),
+                  ),
+                ],
+              );
+            },
+          );
+        },
         child: Text(
-          "NEXT",
+          "CHECKOUT",
           style: TextStyle(color: AppConstantsColor.lightTextColor),
         ),
       ),

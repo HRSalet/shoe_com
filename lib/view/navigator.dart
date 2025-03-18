@@ -21,8 +21,8 @@ class _MainNavigatorState extends State<MainNavigator> {
   List<Widget> _screen = [
     HomeScreen(),
     MyBagScreen(),
-    Profile(),
     WishlistScreen(),
+    Profile(),
   ];
 
   void _onPageChanged(int index) {
@@ -61,8 +61,8 @@ class _MainNavigatorState extends State<MainNavigator> {
         items: [
           CustomNavigationBarItem(icon: Icon(CupertinoIcons.home)),
           CustomNavigationBarItem(icon: Icon(CupertinoIcons.shopping_cart)),
-          CustomNavigationBarItem(icon: Icon(CupertinoIcons.person)),
           CustomNavigationBarItem(icon: Icon(CupertinoIcons.heart)),
+          CustomNavigationBarItem(icon: Icon(CupertinoIcons.person)),
         ],
         onTap: _onItemTapped,
         currentIndex: _selectedIndex,

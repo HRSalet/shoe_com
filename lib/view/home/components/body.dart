@@ -39,6 +39,16 @@ class _BodyState extends State<Body> {
     return nikeShoes;
   }
 
+  void toggleWishlist(ShoeModel model) {
+    setState(() {
+      if (itemsOnWishlist.contains(model)) {
+        itemsOnWishlist.remove(model);
+      } else {
+        itemsOnWishlist.add(model);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -241,6 +251,8 @@ class _BodyState extends State<Body> {
         scrollDirection: Axis.horizontal,
         itemBuilder: (ctx, index) {
           ShoeModel model = filteredShoes[index];
+          bool isFavorite = itemsOnWishlist.contains(model);
+
           return GestureDetector(
             onTap: () {
               Navigator.push(
@@ -291,10 +303,15 @@ class _BodyState extends State<Body> {
                     left: 120,
                     bottom: 0,
                     child: IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        toggleWishlist(model);
+                      },
                       icon: Icon(
-                        Icons.favorite_border,
-                        color: AppConstantsColor.darkTextColor,
+                        isFavorite ? Icons.favorite : Icons.favorite_border,
+                        color:
+                            isFavorite
+                                ? Colors.pink
+                                : AppConstantsColor.darkTextColor,
                       ),
                     ),
                   ),
