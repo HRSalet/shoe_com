@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:sneakers_app/view/authentication/forgot_password.dart';
 import 'package:sneakers_app/view/authentication/signup.dart';
 import 'package:sneakers_app/view/navigator.dart';
 
@@ -37,6 +38,8 @@ class _LoginPageState extends State<LoginPage> {
       setState(() => _isLoading = false);
     }
   }
+
+  Future<void> _forgotPassword() async {}
 
   @override
   Widget build(BuildContext context) {
@@ -119,7 +122,14 @@ class _LoginPageState extends State<LoginPage> {
               Align(
                 alignment: Alignment.centerRight,
                 child: TextButton(
-                  onPressed: () {}, // Implement forgot password functionality
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ForgotPasswordScreen(),
+                      ),
+                    );
+                  }, // Implement forgot password functionality
                   child: const Text(
                     "Forgot password?",
                     style: TextStyle(color: Colors.black),

@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unnecessary_brace_in_string_interps, sized_box_for_whitespace
-
 import 'package:flutter/material.dart';
 import 'package:sneakers_app/theme/custom_app_theme.dart';
 
@@ -51,7 +49,7 @@ class _BodyBagViewState extends State<BodyBagView>
 
   // Top Texts Components
   topText(width, height) {
-    return Container(
+    return SizedBox(
       width: width,
       height: height / 14,
       child: FadeAnimation(
@@ -70,7 +68,114 @@ class _BodyBagViewState extends State<BodyBagView>
     );
   }
 
-  // Material Button Components
+  mainListView(width, height) {
+    return Container(
+      width: width,
+      height: height / 1.7,
+      child: ListView.builder(
+        physics: BouncingScrollPhysics(),
+        scrollDirection: Axis.vertical,
+        itemCount: itemsOnBag.length,
+        itemBuilder: (ctx, index) {
+          ShoeModel currentBagItem = itemsOnBag[index];
+          return FadeAnimation(
+            delay: 1.5 * index / 4,
+            child: Container(
+              margin: EdgeInsets.symmetric(vertical: 1),
+              width: width,
+              height: height / 5.3,
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: width / 2.8,
+                    height: height / 6,
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          top: 10,
+                          left: 10,
+                          child: Container(
+                            width: width / 3.6,
+                            height: height / 7.1,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(25),
+                              color: Colors.grey[350],
+                            ),
+                            child: Image(
+                              fit: BoxFit.contain,
+                              image: AssetImage(currentBagItem.imgAddress),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          currentBagItem.model,
+                          style: AppThemes.bagProductModel,
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          "\₹ ${currentBagItem.price}",
+                          style: AppThemes.bagProductPrice,
+                        ),
+                        SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  itemsOnBag.remove(currentBagItem);
+                                  lengthsOfItemsOnBag = itemsOnBag.length;
+                                });
+                              },
+                              child: Container(
+                                width: 30,
+                                height: 30,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.grey[300],
+                                ),
+                                child: Center(
+                                  child: Icon(Icons.remove, size: 15),
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 10),
+                            Text("1", style: AppThemes.bagProductNumOfShoe),
+                            SizedBox(width: 10),
+                            GestureDetector(
+                              onTap: () {},
+                              child: Container(
+                                width: 30,
+                                height: 30,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.grey[300],
+                                ),
+                                child: Center(child: Icon(Icons.add, size: 15)),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
   materialButton(width, height) {
     return FadeAnimation(
       delay: 3,
@@ -132,117 +237,11 @@ class _BodyBagViewState extends State<BodyBagView>
     );
   }
 
-  // Main ListView Components
-  mainListView(width, height) {
-    return Container(
-      width: width,
-      height: height / 1.6,
-      child: ListView.builder(
-        physics: BouncingScrollPhysics(),
-        scrollDirection: Axis.vertical,
-        itemCount: itemsOnBag.length,
-        itemBuilder: (ctx, index) {
-          ShoeModel currentBagItem = itemsOnBag[index];
-          return FadeAnimation(
-            delay: 1.5 * index / 4,
-            child: Container(
-              margin: EdgeInsets.symmetric(vertical: 1),
-              width: width,
-              height: height / 5.2,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Container(
-                    width: width / 2.8,
-                    height: height / 5.7,
-                    child: Stack(
-                      children: [
-                        Container(
-                          width: width / 3.6,
-                          height: height / 7.1,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(25),
-                            color: Colors.grey[350],
-                          ),
-                          child: Image(
-                            fit: BoxFit.contain,
-                            image: AssetImage(currentBagItem.imgAddress),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 40),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          currentBagItem.model,
-                          style: AppThemes.bagProductModel,
-                        ),
-                        SizedBox(height: 4),
-                        Text(
-                          "\$${currentBagItem.price}",
-                          style: AppThemes.bagProductPrice,
-                        ),
-                        SizedBox(height: 10),
-                        Row(
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  itemsOnBag.remove(currentBagItem);
-                                  lengthsOfItemsOnBag = itemsOnBag.length;
-                                });
-                              },
-                              child: Container(
-                                width: 30,
-                                height: 30,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.grey[300],
-                                ),
-                                child: Center(
-                                  child: Icon(Icons.remove, size: 15),
-                                ),
-                              ),
-                            ),
-                            SizedBox(width: 10),
-                            Text("1", style: AppThemes.bagProductNumOfShoe),
-                            SizedBox(width: 10),
-                            GestureDetector(
-                              onTap: () {},
-                              child: Container(
-                                width: 30,
-                                height: 30,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.grey[300],
-                                ),
-                                child: Center(child: Icon(Icons.add, size: 15)),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-
   bottomInfo(width, height) {
     return Container(
       margin: EdgeInsets.only(top: 10.0),
       width: width,
-      height: height / 7,
+      height: height / 5,
       child: Column(
         children: [
           FadeAnimation(
@@ -250,15 +249,15 @@ class _BodyBagViewState extends State<BodyBagView>
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("TOTAL", style: AppThemes.bagTotalPrice),
+                Text(" TOTAL", style: AppThemes.bagTotalPrice),
                 Text(
-                  "\$${AppMethods.sumOfItemsOnBag()}",
+                  "\₹${AppMethods.sumOfItemsOnBag()}",
                   style: AppThemes.bagSumOfItemOnBag,
                 ),
               ],
             ),
           ),
-          SizedBox(height: 30),
+          SizedBox(height: 20),
           materialButton(width, height),
         ],
       ),

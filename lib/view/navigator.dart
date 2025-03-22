@@ -1,28 +1,34 @@
-// ignore_for_file: prefer_final_fields, prefer_const_constructors, use_key_in_widget_constructors
-
-import 'package:custom_navigation_bar/custom_navigation_bar.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sneakers_app/utils/constants.dart';
 import 'package:sneakers_app/view/bag/bag_screen.dart';
 import 'package:sneakers_app/view/home/home_screen.dart';
 import 'package:sneakers_app/view/profile/profile_screen.dart';
 import 'package:sneakers_app/view/wishlist/wishlist_screen.dart';
 
 class MainNavigator extends StatefulWidget {
+  const MainNavigator({super.key});
+
   @override
   _MainNavigatorState createState() => _MainNavigatorState();
 }
 
 class _MainNavigatorState extends State<MainNavigator> {
-  PageController _pageController = PageController();
+  final PageController _pageController = PageController();
 
   int _selectedIndex = 0;
-  List<Widget> _screen = [
+  final List<Widget> _screen = [
     HomeScreen(),
     MyBagScreen(),
     WishlistScreen(),
     Profile(),
+  ];
+
+  final List<Widget> _navigationItems = [
+    Icon(CupertinoIcons.home),
+    Icon(CupertinoIcons.shopping_cart),
+    Icon(CupertinoIcons.heart),
+    Icon(CupertinoIcons.person),
   ];
 
   void _onPageChanged(int index) {
@@ -50,22 +56,14 @@ class _MainNavigatorState extends State<MainNavigator> {
         onPageChanged: _onPageChanged,
         physics: NeverScrollableScrollPhysics(),
       ),
-      bottomNavigationBar: CustomNavigationBar(
-        iconSize: 27.0,
-        bubbleCurve: Curves.linear,
-        selectedColor: AppConstantsColor.materialButtonColor,
-        strokeColor: AppConstantsColor.materialButtonColor,
-        unSelectedColor: Color(0xffacacac),
-        backgroundColor: Colors.white,
-        scaleFactor: 0.1,
-        items: [
-          CustomNavigationBarItem(icon: Icon(CupertinoIcons.home)),
-          CustomNavigationBarItem(icon: Icon(CupertinoIcons.shopping_cart)),
-          CustomNavigationBarItem(icon: Icon(CupertinoIcons.heart)),
-          CustomNavigationBarItem(icon: Icon(CupertinoIcons.person)),
-        ],
+      bottomNavigationBar: CurvedNavigationBar(
+        items: _navigationItems,
         onTap: _onItemTapped,
-        currentIndex: _selectedIndex,
+        index: _selectedIndex,
+        buttonBackgroundColor: Colors.red,
+        backgroundColor: Colors.white,
+        height: 55,
+        animationCurve: Curves.easeInOut,
       ),
     );
   }

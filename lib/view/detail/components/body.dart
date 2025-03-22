@@ -294,7 +294,7 @@ class details extends State<DetailsBody> {
           ),
           Expanded(child: Container()),
           Container(
-            width: width / 9,
+            width: width / 7,
             child: TextButton(
               onPressed: () {
                 setState(() {

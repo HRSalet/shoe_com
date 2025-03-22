@@ -41,9 +41,9 @@ class _WishlistBodyViewState extends State<WishlistBodyView>
   }
 
   mainListView(width, height) {
-    return Container(
+    return SizedBox(
       width: width,
-      height: height / 1.6,
+      height: height / 1,
       child: ListView.builder(
         physics: BouncingScrollPhysics(),
         scrollDirection: Axis.vertical,
@@ -59,7 +59,7 @@ class _WishlistBodyViewState extends State<WishlistBodyView>
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
+                  SizedBox(
                     width: width / 2.8,
                     height: height / 5.7,
                     child: Stack(
@@ -83,20 +83,22 @@ class _WishlistBodyViewState extends State<WishlistBodyView>
                       ],
                     ),
                   ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        currentBagItem.model,
-                        style: AppThemes.bagProductModel,
-                      ),
-                      SizedBox(height: 4),
-                      Text(
-                        "\$${currentBagItem.price}",
-                        style: AppThemes.bagProductPrice,
-                      ),
-                    ],
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          currentBagItem.model,
+                          style: AppThemes.bagProductModel,
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          "\$${currentBagItem.price}",
+                          style: AppThemes.bagProductPrice,
+                        ),
+                      ],
+                    ),
                   ),
                   IconButton(
                     onPressed: () {

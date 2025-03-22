@@ -37,8 +37,6 @@ PreferredSize? customAppBarDe(BuildContext ctx, String title, ShoeModel model) {
                     itemsOnWishlist.add(model);
                   }
                 });
-
-                //AppMethods.addToWish(model, ctx);
               },
               icon: Icon(
                 isFavorite

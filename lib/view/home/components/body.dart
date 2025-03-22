@@ -8,6 +8,7 @@ import '../../../../models/shoe_model.dart';
 import '../../../../utils/constants.dart';
 import '../../../../view/detail/detail_screen.dart';
 import '../../../data/dummy_data.dart';
+import '../../shoe_search_delegate.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -56,6 +57,8 @@ class _BodyState extends State<Body> {
     return SingleChildScrollView(
       child: Column(
         children: [
+          topText(width, height),
+          Divider(color: Colors.grey),
           topCategoriesWidget(width, height),
           SizedBox(height: 10),
           middleCategoriesWidget(width, height),
@@ -67,7 +70,35 @@ class _BodyState extends State<Body> {
     );
   }
 
-  // Top Categories Widget
+  topText(width, height) {
+    return SizedBox(
+      width: width,
+      height: height / 14,
+      child: FadeAnimation(
+        delay: 0,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 10.0),
+              child: const Text("Discover", style: AppThemes.bagTitle),
+            ),
+            IconButton(
+              icon: FaIcon(
+                CupertinoIcons.search,
+                color: AppConstantsColor.darkTextColor,
+                size: 25,
+              ),
+              onPressed: () {
+                showSearch(context: context, delegate: ShoeSearchDelegate());
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget topCategoriesWidget(double width, double height) {
     return Row(
       children: [
