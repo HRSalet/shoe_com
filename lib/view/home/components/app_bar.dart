@@ -4,7 +4,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../theme/custom_app_theme.dart';
 import '../../../utils/constants.dart';
-import '../../shoe_search_delegate.dart';
 
 PreferredSize? customAppBar(BuildContext context) {
   return PreferredSize(
@@ -26,7 +25,7 @@ PreferredSize? customAppBar(BuildContext context) {
               size: 25,
             ),
             onPressed: () {
-              showSearch(context: context, delegate: ShoeSearchDelegate());
+              //showSearch(context: context, delegate: ShoeSearchDelegate());
             },
           ),
         ),

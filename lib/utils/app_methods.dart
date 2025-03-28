@@ -6,7 +6,7 @@ import '../models/models.dart';
 
 class AppMethods {
   AppMethods._();
-  static void addToCart(ShoeModel data, BuildContext context) {
+  static void addToCart(Product data, BuildContext context) {
     bool contains = itemsOnBag.contains(data);
 
     if (contains == true) {
@@ -19,7 +19,7 @@ class AppMethods {
     }
   }
 
-  static void addToWish(ShoeModel data, BuildContext context) {
+  static void addToWish(Product data, BuildContext context) {
     bool contains = itemsOnWishlist.contains(data);
 
     if (contains == true) {
@@ -33,10 +33,9 @@ class AppMethods {
   }
 
   static double sumOfItemsOnBag() {
-    double sumPrice = 0.0;
-    for (ShoeModel bagModel in itemsOnBag) {
-      sumPrice = sumPrice + bagModel.price;
-    }
-    return sumPrice;
+    return itemsOnBag.fold(
+      0,
+      (sum, item) => sum + (item.price * item.quantity),
+    );
   }
 }

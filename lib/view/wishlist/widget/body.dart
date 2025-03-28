@@ -49,7 +49,7 @@ class _WishlistBodyViewState extends State<WishlistBodyView>
         scrollDirection: Axis.vertical,
         itemCount: itemsOnWishlist.length,
         itemBuilder: (ctx, index) {
-          ShoeModel currentBagItem = itemsOnWishlist[index];
+          Product currentBagItem = itemsOnWishlist[index];
           return FadeAnimation(
             delay: 1.5 * index / 4,
             child: Container(
@@ -76,7 +76,7 @@ class _WishlistBodyViewState extends State<WishlistBodyView>
                             ),
                             child: Image(
                               fit: BoxFit.contain,
-                              image: AssetImage(currentBagItem.imgAddress),
+                              image: NetworkImage(currentBagItem.imgAddress),
                             ),
                           ),
                         ),

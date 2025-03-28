@@ -5,16 +5,19 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../../animation/fadeanimation.dart';
 import '../../../../../models/shoe_model.dart';
-import '../../../../../utils/app_methods.dart';
 import '../../../../../utils/constants.dart';
 import '../../../data/dummy_data.dart';
 import '../../../models/models.dart';
 import '../../../theme/custom_app_theme.dart';
+import '../../../utils/app_methods.dart' show AppMethods;
 
 class DetailsBody extends StatefulWidget {
-  ShoeModel model;
+  Product productModel;
   bool isComeFromMoreSection;
-  DetailsBody({required this.model, required this.isComeFromMoreSection});
+  DetailsBody({
+    required this.productModel,
+    required this.isComeFromMoreSection,
+  });
 
   @override
   details createState() => details();
@@ -75,6 +78,17 @@ class details extends State<DetailsBody> {
       child: Stack(
         children: [
           Positioned(
+            child: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: Icon(
+                Icons.arrow_back_ios_new_rounded,
+                color: AppConstantsColor.darkTextColor,
+              ),
+            ),
+          ),
+          Positioned(
             left: 50,
             bottom: 20,
             child: FadeAnimation(
@@ -83,7 +97,7 @@ class details extends State<DetailsBody> {
                 width: 1000,
                 height: height / 2.2,
                 decoration: BoxDecoration(
-                  color: widget.model.modelColor,
+                  color: Colors.black,
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(1500),
                     bottomRight: Radius.circular(100),
@@ -93,19 +107,29 @@ class details extends State<DetailsBody> {
             ),
           ),
           Positioned(
+            top: 0,
+            right: 0,
+            child: IconButton(
+              onPressed: () {
+                AppMethods.addToWish(widget.productModel, context);
+              },
+              icon: Icon(Icons.favorite_border_outlined),
+            ),
+          ),
+          Positioned(
             top: 100,
             left: 30,
             child: Hero(
               tag:
                   widget.isComeFromMoreSection
-                      ? widget.model.model
-                      : widget.model.imgAddress,
+                      ? widget.productModel.model
+                      : widget.productModel.imgAddress,
               child: RotationTransition(
                 turns: AlwaysStoppedAnimation(-25 / 360),
                 child: Container(
                   width: width / 1.3,
                   height: height / 4.3,
-                  child: Image(image: AssetImage(widget.model.imgAddress)),
+                  child: Image.network(widget.productModel.imgAddress),
                 ),
               ),
             ),
@@ -125,7 +149,7 @@ class details extends State<DetailsBody> {
         borderRadius: BorderRadius.circular(10),
         color: Colors.grey[300],
       ),
-      child: Image(image: AssetImage(widget.model.imgAddress)),
+      child: Image.network(widget.productModel.imgAddress),
     );
   }
 
@@ -150,7 +174,7 @@ class details extends State<DetailsBody> {
               decoration: BoxDecoration(
                 color: Colors.grey[300],
                 image: DecorationImage(
-                  image: AssetImage(widget.model.imgAddress),
+                  image: NetworkImage(widget.productModel.imgAddress),
                   fit: BoxFit.cover,
                   colorFilter: ColorFilter.mode(Colors.grey, BlendMode.darken),
                 ),
@@ -180,7 +204,7 @@ class details extends State<DetailsBody> {
         height: height / 15,
         color: AppConstantsColor.materialButtonColor,
         onPressed: () {
-          AppMethods.addToCart(widget.model, context);
+          AppMethods.addToCart(widget.productModel, context);
         },
         child: Text(
           "ADD TO BAG",
@@ -378,7 +402,7 @@ class details extends State<DetailsBody> {
       child: Row(
         children: [
           Text(
-            widget.model.model,
+            widget.productModel.model,
             style: TextStyle(
               fontSize: 21,
               fontWeight: FontWeight.bold,
@@ -387,7 +411,7 @@ class details extends State<DetailsBody> {
           ),
           Expanded(child: Container()),
           Text(
-            '\₹${widget.model.price.toStringAsFixed(2)}',
+            '\₹${widget.productModel.price.toStringAsFixed(2)}',
             style: AppThemes.detailsProductPrice,
           ),
         ],

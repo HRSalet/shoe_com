@@ -39,8 +39,6 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  Future<void> _forgotPassword() async {}
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(

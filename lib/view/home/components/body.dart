@@ -1,17 +1,19 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:http/http.dart' as http;
 import 'package:sneakers_app/theme/custom_app_theme.dart';
+import 'package:sneakers_app/view/detail/detail_screen.dart';
 
 import '../../../../animation/fadeanimation.dart';
 import '../../../../models/shoe_model.dart';
 import '../../../../utils/constants.dart';
-import '../../../../view/detail/detail_screen.dart';
 import '../../../data/dummy_data.dart';
-import '../../shoe_search_delegate.dart';
 
 class Body extends StatefulWidget {
-  const Body({Key? key}) : super(key: key);
+  const Body({super.key});
 
   @override
   _BodyState createState() => _BodyState();
@@ -19,84 +21,73 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   int selectedIndexOfCategory = 0;
-
-  List<ShoeModel> getFilteredShoes() {
-    String selectedCategory = categories[selectedIndexOfCategory];
-    if (selectedCategory == 'Nike') {
-      return nikeShoes;
-    } else if (selectedCategory == 'Adidas') {
-      return adidasShoes;
-    } else if (selectedCategory == 'Bata') {
-      return bataShoes;
-    } else if (selectedCategory == 'Puma') {
-      return pumaShoes;
-    } else if (selectedCategory == 'Campus') {
-      return CampusShoes;
-    } else if (selectedCategory == 'Woodland') {
-      return woodlandShoes;
-    } else if (selectedCategory == 'Reebok') {
-      return reebokShoes;
-    }
-    return nikeShoes;
-  }
-
-  void toggleWishlist(ShoeModel model) {
-    setState(() {
-      if (itemsOnWishlist.contains(model)) {
-        itemsOnWishlist.remove(model);
-      } else {
-        itemsOnWishlist.add(model);
-      }
-    });
-  }
+  List<Product> products = [];
+  List<String> categories = [
+    "Nike",
+    "Adidas",
+    "Bata",
+    "Reebok",
+    "Puma",
+    "Campus",
+    "Woodland",
+    "Reebok",
+  ];
 
   @override
-  Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          topText(width, height),
-          Divider(color: Colors.grey),
-          topCategoriesWidget(width, height),
-          SizedBox(height: 10),
-          middleCategoriesWidget(width, height),
-          SizedBox(height: 5),
-          moreTextWidget(),
-          lastCategoriesWidget(width, height),
-        ],
-      ),
-    );
+  void initState() {
+    super.initState();
+    fetchProducts(categories[selectedIndexOfCategory].toLowerCase());
   }
 
-  topText(width, height) {
-    return SizedBox(
-      width: width,
-      height: height / 14,
-      child: FadeAnimation(
-        delay: 0,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 10.0),
-              child: const Text("Discover", style: AppThemes.bagTitle),
-            ),
-            IconButton(
-              icon: FaIcon(
-                CupertinoIcons.search,
-                color: AppConstantsColor.darkTextColor,
-                size: 25,
-              ),
-              onPressed: () {
-                showSearch(context: context, delegate: ShoeSearchDelegate());
-              },
-            ),
-          ],
-        ),
-      ),
-    );
+  Future<void> fetchProducts(String category) async {
+    final String url =
+        "http://192.168.0.102/shoe_hive_db/index.php?category=$category";
+    try {
+      final response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        final decodedData = json.decode(response.body);
+
+        if (decodedData is Map<String, dynamic>) {
+          if (decodedData.containsKey('products') &&
+              decodedData['products'] is List) {
+            setState(() {
+              products =
+                  (decodedData['products'] as List)
+                      .map((item) => Product.fromJson(item))
+                      .toList();
+            });
+          } else {
+            print("Error: No products found.");
+            setState(() {
+              products = [];
+            });
+          }
+        } else if (decodedData is List) {
+          // If the response is already a List
+          setState(() {
+            products =
+                decodedData.map((item) => Product.fromJson(item)).toList();
+          });
+        } else {
+          throw Exception("Unexpected JSON format");
+        }
+      } else {
+        throw Exception("Failed to load products");
+      }
+    } catch (error) {
+      print("Error fetching products: $error");
+    }
+  }
+
+  void toggleWishlist(Product product) {
+    setState(() {
+      if (itemsOnWishlist.contains(product)) {
+        itemsOnWishlist.remove(product);
+      } else {
+        itemsOnWishlist.add(product);
+      }
+    });
   }
 
   Widget topCategoriesWidget(double width, double height) {
@@ -117,6 +108,7 @@ class _BodyState extends State<Body> {
                     setState(() {
                       selectedIndexOfCategory = index;
                     });
+                    fetchProducts(categories[index].toLowerCase());
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -144,113 +136,161 @@ class _BodyState extends State<Body> {
     );
   }
 
-  // Middle Categories Widget
-  Widget middleCategoriesWidget(double width, double height) {
-    List<ShoeModel> filteredShoes = getFilteredShoes();
-
-    return Row(
-      children: [
-        Container(
-          width: width,
-          height: height / 2.4,
-          child: ListView.builder(
-            physics: BouncingScrollPhysics(),
-            scrollDirection: Axis.horizontal,
-            itemCount: filteredShoes.length,
-            itemBuilder: (ctx, index) {
-              ShoeModel model = filteredShoes[index];
-              return GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder:
-                          (ctx) => DetailScreen(
-                            model: model,
-                            isComeFromMoreSection: false,
-                          ),
-                    ),
-                  );
-                },
-                child: Container(
-                  margin: EdgeInsets.all(15),
-                  width: width / 1.5,
-                  child: Stack(
-                    children: [
-                      Container(
-                        width: width / 1.81,
-                        decoration: BoxDecoration(
-                          color: model.modelColor,
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                      ),
-                      Positioned(
-                        left: 10,
-                        child: FadeAnimation(
-                          delay: 1,
-                          child: Row(
-                            children: [
-                              Text(
-                                model.name,
-                                style: AppThemes.homeProductName,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        top: 45,
-                        left: 10,
-                        child: FadeAnimation(
-                          delay: 1.5,
-                          child: Text(
-                            model.model,
-                            style: AppThemes.homeProductModel,
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        top: 80,
-                        left: 10,
-                        child: FadeAnimation(
-                          delay: 2,
-                          child: Text(
-                            "\₹${model.price.toStringAsFixed(2)}",
-                            style: AppThemes.homeProductPrice,
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        left: 20,
-                        top: 60,
-                        child: FadeAnimation(
-                          delay: 2,
-                          child: Hero(
-                            tag: model.imgAddress,
-                            child: RotationTransition(
-                              turns: AlwaysStoppedAnimation(-30 / 360),
-                              child: Image.asset(
-                                model.imgAddress,
-                                width: 230,
-                                height: 230,
-                                fit: BoxFit.fitWidth,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
-      ],
+  @override
+  Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          topText(width, height),
+          Divider(color: Colors.grey),
+          topCategoriesWidget(width, height),
+          Divider(color: Colors.grey),
+          productListView(width, height),
+          moreTextWidget(),
+          lastCategoriesWidget(width, height),
+        ],
+      ),
     );
   }
 
-  // More Text Widget
+  Widget topText(double width, double height) {
+    return SizedBox(
+      width: width,
+      height: height / 14,
+      child: FadeAnimation(
+        delay: 0,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 10.0),
+              child: const Text("Discover", style: AppThemes.bagTitle),
+            ),
+            // IconButton(
+            //   icon: FaIcon(
+            //     CupertinoIcons.search,
+            //     color: AppConstantsColor.darkTextColor,
+            //     size: 25,
+            //   ),
+            //   onPressed: () {
+            //     print('going for search');
+            //     showSearch(context: context, delegate: ShoeSearchDelegate());
+            //   },
+            // ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget productListView(double width, double height) {
+    if (products.isEmpty) {
+      return Center(child: CircularProgressIndicator());
+    }
+    return Container(
+      width: width,
+      height: height / 2.4,
+      child: ListView.builder(
+        physics: BouncingScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        itemCount: products.length,
+        itemBuilder: (ctx, index) {
+          Product product = products[index];
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder:
+                      (context) => DetailScreen(
+                        productModel: product,
+                        isComeFromMoreSection: true,
+                      ),
+                ),
+              );
+            },
+            child: Container(
+              margin: EdgeInsets.all(15),
+              width: width / 1.5,
+              child: Stack(
+                children: [
+                  Container(
+                    width: width / 1.81,
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
+                  Positioned(
+                    left: 10,
+                    child: FadeAnimation(
+                      delay: 1,
+                      child: Row(
+                        children: [
+                          Text(product.name, style: AppThemes.homeProductName),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: 45,
+                    left: 10,
+                    child: FadeAnimation(
+                      delay: 1.5,
+                      child: Text(
+                        product.model,
+                        style: AppThemes.homeProductModel,
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: 80,
+                    left: 10,
+                    child: FadeAnimation(
+                      delay: 2,
+                      child: Text(
+                        "\₹${product.price.toStringAsFixed(2)}",
+                        style: AppThemes.homeProductPrice,
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    left: 20,
+                    top: 60,
+                    child: FadeAnimation(
+                      delay: 2,
+                      child: Hero(
+                        tag: product.imgAddress,
+                        child: RotationTransition(
+                          turns: AlwaysStoppedAnimation(-30 / 360),
+                          child: Image.network(
+                            product.imgAddress,
+                            width: 230,
+                            height: 230,
+                            fit: BoxFit.fitWidth,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Icon(
+                                Icons.broken_image,
+                                size: 100,
+                                color: Colors.grey,
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
   Widget moreTextWidget() {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20),
@@ -269,29 +309,28 @@ class _BodyState extends State<Body> {
     );
   }
 
-  // Last Categories Widget (Updated to Show Filtered Shoes)
   Widget lastCategoriesWidget(double width, double height) {
-    List<ShoeModel> filteredShoes = getFilteredShoes();
-
+    if (products.isEmpty) {
+      return Center(child: CircularProgressIndicator());
+    }
     return Container(
       width: width,
       height: height / 4,
       child: ListView.builder(
         physics: BouncingScrollPhysics(),
-        itemCount: filteredShoes.length,
+        itemCount: products.length,
         scrollDirection: Axis.horizontal,
         itemBuilder: (ctx, index) {
-          ShoeModel model = filteredShoes[index];
-          bool isFavorite = itemsOnWishlist.contains(model);
-
+          Product product = products[index];
+          bool isFavorite = itemsOnWishlist.contains(product);
           return GestureDetector(
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder:
-                      (ctx) => DetailScreen(
-                        model: model,
+                      (context) => DetailScreen(
+                        productModel: product,
                         isComeFromMoreSection: true,
                       ),
                 ),
@@ -335,7 +374,7 @@ class _BodyState extends State<Body> {
                     bottom: 0,
                     child: IconButton(
                       onPressed: () {
-                        toggleWishlist(model);
+                        toggleWishlist(product);
                       },
                       icon: Icon(
                         isFavorite ? Icons.favorite : Icons.favorite_border,
@@ -353,8 +392,8 @@ class _BodyState extends State<Body> {
                       delay: 1.5,
                       child: RotationTransition(
                         turns: AlwaysStoppedAnimation(-15 / 360),
-                        child: Image.asset(
-                          model.imgAddress,
+                        child: Image.network(
+                          product.imgAddress,
                           width: width / 3,
                           height: height / 9,
                         ),

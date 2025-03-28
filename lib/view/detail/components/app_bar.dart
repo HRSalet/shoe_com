@@ -4,13 +4,17 @@ import 'package:sneakers_app/models/shoe_model.dart';
 import 'package:sneakers_app/theme/custom_app_theme.dart';
 import 'package:sneakers_app/utils/constants.dart';
 
-PreferredSize? customAppBarDe(BuildContext ctx, String title, ShoeModel model) {
+PreferredSize? customAppBarDe(
+  BuildContext ctx,
+  String title,
+  Product productModel,
+) {
   return PreferredSize(
     preferredSize: const Size.fromHeight(60),
     child: StatefulBuilder(
       builder: (context, setState) {
         bool isFavorite = itemsOnWishlist.contains(
-          model,
+          productModel,
         ); // Check if in wishlist
 
         return AppBar(
@@ -30,13 +34,13 @@ PreferredSize? customAppBarDe(BuildContext ctx, String title, ShoeModel model) {
           actions: [
             IconButton(
               onPressed: () {
-                setState(() {
-                  if (isFavorite) {
-                    itemsOnWishlist.remove(model);
-                  } else {
-                    itemsOnWishlist.add(model);
-                  }
-                });
+                // setState(() {
+                //   if (isFavorite) {
+                //     itemsOnWishlist.remove(productModel);
+                //   } else {
+                //     itemsOnWishlist.add(productModel);
+                //   }
+                // });
               },
               icon: Icon(
                 isFavorite
