@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:sneakers_app/theme/custom_app_theme.dart';
 import 'package:sneakers_app/view/checkout/checkout_screen.dart';
 
@@ -58,9 +59,14 @@ class _BodyBagViewState extends State<BodyBagView>
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text("My Bag", style: AppThemes.bagTitle),
             Text(
-              "Total ${itemsOnBag.fold(0, (sum, item) => sum + item.quantity)} Items",
+              AppLocalizations.of(context)!.my_cart,
+              style: AppThemes.bagTitle,
+            ),
+            Text(
+              AppLocalizations.of(context)!.total +
+                  ' ${itemsOnBag.fold(0, (sum, item) => sum + item.quantity)} ' +
+                  AppLocalizations.of(context)!.items,
               style: AppThemes.bagTotalPrice,
             ),
           ],
@@ -206,7 +212,7 @@ class _BodyBagViewState extends State<BodyBagView>
           );
         },
         child: Text(
-          "CHECKOUT",
+          AppLocalizations.of(context)!.checkout,
           style: TextStyle(color: AppConstantsColor.lightTextColor),
         ),
       ),
@@ -225,7 +231,13 @@ class _BodyBagViewState extends State<BodyBagView>
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(" TOTAL", style: AppThemes.bagTotalPrice),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: Text(
+                    AppLocalizations.of(context)!.total,
+                    style: AppThemes.bagTotalPrice,
+                  ),
+                ),
                 Text(
                   "\₹${AppMethods.sumOfItemsOnBag()}",
                   style: AppThemes.bagSumOfItemOnBag,

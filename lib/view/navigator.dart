@@ -61,7 +61,7 @@ class _MainNavigatorState extends State<MainNavigator> {
         onTap: _onItemTapped,
         index: _selectedIndex,
         buttonBackgroundColor: Colors.red,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.black,
         height: 55,
         animationCurve: Curves.easeInOut,
       ),

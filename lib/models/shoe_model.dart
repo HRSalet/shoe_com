@@ -17,13 +17,13 @@ class Product {
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
-      id: json['id'].toString(), // Ensure id is always a String
+      id: json['id'].toString(),
       name: json['name'] ?? "Unknown",
       model: json['model'] ?? "Unknown",
       price:
           double.tryParse(json['price'].toString()) ?? 0.0, // Safe conversion
       imgAddress:
-          "http://192.168.0.102/shoe_hive_db/product_images/${json['imgAddress']}",
+          "http://192.168.189.243/shoe_hive_db/product_images/${json['imgAddress']}",
     );
   }
 }

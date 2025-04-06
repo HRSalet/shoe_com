@@ -46,7 +46,10 @@ dependencies:
   curved_navigation_bar: ^1.0.6
   http:
   intl:
-
+  redacted: ^1.0.13
+  flutter_localization: ^0.3.1
+  provider:
+  animation_list: ^3.1.0
 
 dev_dependencies:
   flutter_test:
@@ -69,6 +72,8 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  generate: true
+
   assets:
     - assets/images/
     - assets/images/nike/

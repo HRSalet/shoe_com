@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:sneakers_app/view/confirm_order/order_tracking_screen.dart';
 import 'package:sneakers_app/view/navigator.dart';
@@ -125,9 +126,9 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
               backgroundColor: Colors.transparent,
               flexibleSpace: Container(
                 decoration: const BoxDecoration(color: Colors.black),
-                child: const FlexibleSpaceBar(
+                child: FlexibleSpaceBar(
                   title: Text(
-                    'Order Confirmation',
+                    AppLocalizations.of(context)!.confirm_order,
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -144,11 +145,23 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
                     padding: const EdgeInsets.all(16),
                     child: Row(
                       children: [
-                        _buildStep(1, 'Shipping', true),
+                        _buildStep(
+                          1,
+                          AppLocalizations.of(context)!.shipping,
+                          true,
+                        ),
                         _buildStepConnector(true),
-                        _buildStep(2, 'Payment', true),
+                        _buildStep(
+                          2,
+                          AppLocalizations.of(context)!.payment,
+                          true,
+                        ),
                         _buildStepConnector(true),
-                        _buildStep(3, 'Confirm', true),
+                        _buildStep(
+                          3,
+                          AppLocalizations.of(context)!.confirm,
+                          true,
+                        ),
                       ],
                     ),
                   ),
@@ -171,7 +184,9 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
                         ),
                         SizedBox(height: 24),
                         Text(
-                          "Order Placed Successfully",
+                          AppLocalizations.of(
+                            context,
+                          )!.order_placed_successfully,
                           style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
@@ -180,7 +195,7 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
                         ),
                         SizedBox(height: 8),
                         Text(
-                          "Your order has been confirmed and will be delivered soon",
+                          AppLocalizations.of(context)!.confirmation_msg,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 14,
@@ -209,7 +224,7 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Order Details',
+                          AppLocalizations.of(context)!.order_details,
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -217,18 +232,21 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
                           ),
                         ),
                         SizedBox(height: 16),
-                        _buildDetailRow('Order No', orderNo),
                         _buildDetailRow(
-                          'Order Date',
+                          AppLocalizations.of(context)!.order_no,
+                          orderNo,
+                        ),
+                        _buildDetailRow(
+                          AppLocalizations.of(context)!.order_date,
                           "${currentDate.toString()}",
                         ),
                         _buildDetailRow(
-                          'Total Amount',
+                          AppLocalizations.of(context)!.total_amount,
                           "₹ ${widget.total.toStringAsFixed(2)}",
                         ),
                         _buildDetailRow(
-                          'Status',
-                          "Processing",
+                          AppLocalizations.of(context)!.status,
+                          AppLocalizations.of(context)!.processing,
                           valueColor: Colors.orangeAccent,
                           isBold: true,
                         ),
@@ -253,7 +271,7 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Delivery Details',
+                          AppLocalizations.of(context)!.delivery_details,
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -277,7 +295,9 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Delivery Address',
+                                    AppLocalizations.of(
+                                      context,
+                                    )!.delivery_address,
                                     style: TextStyle(
                                       fontSize: 14,
                                       color: Colors.grey[600],
@@ -312,7 +332,9 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Delivery Method',
+                                    AppLocalizations.of(
+                                      context,
+                                    )!.delivery_method,
                                     style: TextStyle(
                                       fontSize: 14,
                                       color: Colors.grey[600],
@@ -349,7 +371,7 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Payment Details',
+                          AppLocalizations.of(context)!.payment_details,
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -373,7 +395,9 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Payment Method',
+                                    AppLocalizations.of(
+                                      context,
+                                    )!.payment_methods,
                                     style: TextStyle(
                                       fontSize: 14,
                                       color: Colors.grey[600],
@@ -393,20 +417,20 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
                         Divider(),
                         SizedBox(height: 16),
                         _buildDetailRow(
-                          'Subtotal',
+                          AppLocalizations.of(context)!.subtotal,
                           "₹ ${widget.subTotal.toStringAsFixed(2)}",
                         ),
                         _buildDetailRow(
-                          'Shipping',
+                          AppLocalizations.of(context)!.shipping,
                           "₹ ${widget.shippingCost.toStringAsFixed(2)}",
                         ),
                         _buildDetailRow(
-                          'Tax',
+                          AppLocalizations.of(context)!.tax,
                           "₹ ${widget.taxAmount.toStringAsFixed(2)}",
                         ),
                         Divider(height: 24),
                         _buildDetailRow(
-                          'Total',
+                          AppLocalizations.of(context)!.total,
                           "₹ ${widget.total.toStringAsFixed(2)}",
                           isBold: true,
                           valueColor: Colors.black,
@@ -445,7 +469,7 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
                         ),
                       );
                     },
-                    child: Text('Track Order'),
+                    child: Text(AppLocalizations.of(context)!.track_order),
                     style: OutlinedButton.styleFrom(
                       padding: EdgeInsets.symmetric(vertical: 16),
                       side: BorderSide(color: Colors.black),
@@ -466,7 +490,7 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
                         ),
                       );
                     },
-                    child: Text('Continue Shopping'),
+                    child: Text(AppLocalizations.of(context)!.continue_shopping),
                     style: OutlinedButton.styleFrom(
                       padding: EdgeInsets.symmetric(vertical: 16),
                       side: BorderSide(color: Colors.black),

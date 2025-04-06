@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
+import 'package:sneakers_app/controller/language_change_controller.dart';
 
 import '../../../animation/fadeanimation.dart';
 import '../../../theme/custom_app_theme.dart';
@@ -12,6 +15,8 @@ class ProfileBody extends StatefulWidget {
   @override
   _ProfileBodyState createState() => _ProfileBodyState();
 }
+
+enum language { english, hindi, gujarati }
 
 class _ProfileBodyState extends State<ProfileBody> {
   final TextEditingController _nameController = TextEditingController();
@@ -102,6 +107,34 @@ class _ProfileBodyState extends State<ProfileBody> {
     );
   }
 
+  Future<void> _deleteAccount() async {
+    Navigator.pop(context);
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (user == null) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('No user is logged in')));
+      return;
+    }
+    try {
+      await FirebaseFirestore.instance
+          .collection('Users')
+          .doc(user.uid)
+          .delete();
+
+      await user.delete();
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => LoginPage()),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error: ${e.toString()}')));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -117,41 +150,7 @@ class _ProfileBodyState extends State<ProfileBody> {
             const SizedBox(height: 15),
             mainProfile(),
             const SizedBox(height: 20),
-            _isLoading
-                ? CircularProgressIndicator()
-                : ElevatedButton(
-                  onPressed: _updateUserDetails,
-                  child: Text(
-                    'Save Changes',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(150, 50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                    elevation: 8.0,
-                    backgroundColor: Colors.black,
-                    foregroundColor: Colors.white,
-                  ),
-                ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _logout,
-              child: Text(
-                'Logout',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              style: ElevatedButton.styleFrom(
-                minimumSize: const Size(150, 50),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50),
-                ),
-                elevation: 8.0,
-                backgroundColor: Colors.red,
-                foregroundColor: Colors.white,
-              ),
-            ),
+            _isLoading ? CircularProgressIndicator() : lastButton(),
           ],
         ),
       ),
@@ -169,10 +168,62 @@ class _ProfileBodyState extends State<ProfileBody> {
           children: [
             Padding(
               padding: const EdgeInsets.only(left: 10.0),
-              child: const Text("My Profile", style: AppThemes.bagTitle),
+              child: Text(
+                AppLocalizations.of(context)!.my_profile,
+                style: AppThemes.bagTitle,
+              ),
+            ),
+            Consumer<LanguageChangeController>(
+              builder: (context, provider, child) {
+                return PopupMenuButton<language>(
+                  icon: Icon(
+                    Icons.translate_rounded,
+                    color: Colors.black,
+                    size: 28,
+                  ),
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  elevation: 8, // Shadow effect
+                  onSelected: (language selectedLanguage) {
+                    switch (selectedLanguage) {
+                      case language.english:
+                        provider.changeLanguage(Locale('en'));
+                        break;
+                      case language.hindi:
+                        provider.changeLanguage(Locale('hi'));
+                        break;
+                      case language.gujarati:
+                        provider.changeLanguage(Locale('gu'));
+                        break;
+                    }
+                  },
+                  itemBuilder:
+                      (BuildContext context) => <PopupMenuEntry<language>>[
+                        _buildMenuItem(language.english, "English"),
+                        _buildMenuItem(language.hindi, "हिन्दी"),
+                        _buildMenuItem(language.gujarati, "ગુજરાતી"),
+                      ],
+                );
+              },
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  PopupMenuItem<language> _buildMenuItem(language value, String text) {
+    return PopupMenuItem<language>(
+      value: value,
+      child: Row(
+        children: [
+          Text(
+            text,
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+        ],
       ),
     );
   }
@@ -188,7 +239,7 @@ class _ProfileBodyState extends State<ProfileBody> {
             TextFormField(
               controller: _nameController,
               decoration: InputDecoration(
-                labelText: "Name",
+                labelText: AppLocalizations.of(context)!.name,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
@@ -199,7 +250,7 @@ class _ProfileBodyState extends State<ProfileBody> {
               controller: _emailController,
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
-                labelText: "Email",
+                labelText: AppLocalizations.of(context)!.email,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
@@ -211,7 +262,7 @@ class _ProfileBodyState extends State<ProfileBody> {
               keyboardType: TextInputType.phone,
               controller: _phoneController,
               decoration: InputDecoration(
-                labelText: "Phone number",
+                labelText: AppLocalizations.of(context)!.phone_number,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
@@ -221,7 +272,7 @@ class _ProfileBodyState extends State<ProfileBody> {
             TextFormField(
               controller: _dobController,
               decoration: InputDecoration(
-                labelText: 'Date of Birth',
+                labelText: AppLocalizations.of(context)!.dob,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
@@ -235,7 +286,7 @@ class _ProfileBodyState extends State<ProfileBody> {
             TextFormField(
               controller: _addressController,
               decoration: InputDecoration(
-                labelText: 'Address',
+                labelText: AppLocalizations.of(context)!.address,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
@@ -244,6 +295,63 @@ class _ProfileBodyState extends State<ProfileBody> {
           ],
         ),
       ),
+    );
+  }
+
+  lastButton() {
+    return Column(
+      children: [
+        ElevatedButton(
+          onPressed: _updateUserDetails,
+          child: Text(
+            AppLocalizations.of(context)!.save_changes,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          style: ElevatedButton.styleFrom(
+            minimumSize: const Size(150, 50),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50),
+            ),
+            elevation: 8.0,
+            backgroundColor: Colors.black,
+            foregroundColor: Colors.white,
+          ),
+        ),
+        SizedBox(height: 20),
+        ElevatedButton(
+          onPressed: _logout,
+          child: Text(
+            AppLocalizations.of(context)!.logout,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          style: ElevatedButton.styleFrom(
+            minimumSize: const Size(150, 50),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50),
+            ),
+            elevation: 8.0,
+            backgroundColor: Colors.orangeAccent,
+            foregroundColor: Colors.white,
+          ),
+        ),
+        SizedBox(height: 20),
+        ElevatedButton(
+          onPressed: _deleteAccount,
+          child: Text(
+            AppLocalizations.of(context)!.delete,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          style: ElevatedButton.styleFrom(
+            minimumSize: const Size(150, 50),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50),
+            ),
+            elevation: 8.0,
+            backgroundColor: Colors.red,
+            foregroundColor: Colors.white,
+          ),
+        ),
+      ],
     );
   }
 }

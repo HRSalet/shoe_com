@@ -1,0 +1,7 @@
+1. Install Xampp server into your system.
+
+2. Goto C: Drive -> xampp -> htdocs -> paste "shoe_hive_db" folder in this location.
+
+3. Make sure both your laptop/pc and your mobile device should be connect to the same wifi network.
+
+4. Open cmd and type ipconfig and press enter to see the IP address. Replace your IP address into the shoe_model.dart file in line no. 26 and into the view\home\body.dart line no. 47.

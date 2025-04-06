@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:sneakers_app/view/authentication/forgot_password.dart';
 import 'package:sneakers_app/view/authentication/signup.dart';
 import 'package:sneakers_app/view/navigator.dart';
@@ -52,8 +53,8 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               Image.asset('assets/images/Logo.png', height: 60),
               const SizedBox(height: 20),
-              const Text(
-                "Login",
+              Text(
+                AppLocalizations.of(context)!.logIn,
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 30),
@@ -66,18 +67,18 @@ class _LoginPageState extends State<LoginPage> {
                       controller: emailController,
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
-                        labelText: "Email",
+                        labelText: AppLocalizations.of(context)!.email,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return "Please enter your email";
+                          return AppLocalizations.of(context)!.please_enter_your_email;
                         } else if (!RegExp(
                           r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}",
                         ).hasMatch(value)) {
-                          return "Enter a valid email";
+                          return AppLocalizations.of(context)!.enter_a_valid_email;
                         }
                         return null;
                       },
@@ -87,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
                       controller: passController,
                       obscureText: _obscurePassword,
                       decoration: InputDecoration(
-                        labelText: "Password",
+                        labelText: AppLocalizations.of(context)!.password,
                         suffixIcon: IconButton(
                           icon: Icon(
                             _obscurePassword
@@ -106,9 +107,9 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return "Please enter your password";
+                          return AppLocalizations.of(context)!.please_enter_your_password;
                         } else if (value.length < 8) {
-                          return "Password must be at least 8 characters";
+                          return AppLocalizations.of(context)!.password_warning;
                         }
                         return null;
                       },
@@ -128,8 +129,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     );
                   }, // Implement forgot password functionality
-                  child: const Text(
-                    "Forgot password?",
+                  child: Text(AppLocalizations.of(context)!.forgotPassword,
                     style: TextStyle(color: Colors.black),
                   ),
                 ),
@@ -138,27 +138,27 @@ class _LoginPageState extends State<LoginPage> {
               _isLoading
                   ? const CircularProgressIndicator()
                   : ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(double.infinity, 50),
-                      backgroundColor: Colors.black,
-                      foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                    ),
-                    onPressed: _login,
-                    child: const Text(
-                      "Sign in",
-                      style: TextStyle(fontSize: 18),
-                    ),
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(double.infinity, 50),
+                  backgroundColor: Colors.black,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50),
                   ),
+                ),
+                onPressed: _login,
+                child: Text(
+                  AppLocalizations.of(context)!.signIn,
+                  style: TextStyle(fontSize: 18),
+                ),
+              ),
               const SizedBox(height: 20),
               Row(
                 children: [
                   const Expanded(child: Divider(thickness: 1)),
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: Text("or"),
+                    child: Text(AppLocalizations.of(context)!.or),
                   ),
                   const Expanded(child: Divider(thickness: 1)),
                 ],
@@ -178,8 +178,8 @@ class _LoginPageState extends State<LoginPage> {
                     MaterialPageRoute(builder: (context) => SignupPage()),
                   );
                 },
-                child: const Text(
-                  "Sign up",
+                child: Text(
+                  AppLocalizations.of(context)!.signUp,
                   style: TextStyle(fontSize: 18, color: Colors.black),
                 ),
               ),

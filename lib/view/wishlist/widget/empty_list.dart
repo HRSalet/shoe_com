@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:sneakers_app/animation/fadeanimation.dart';
 import 'package:sneakers_app/theme/custom_app_theme.dart';
 
@@ -17,14 +18,14 @@ class WishEmptyList extends StatelessWidget {
             FadeAnimation(
               delay: 0.5,
               child: Text(
-                "Wishlist is empty!",
+                AppLocalizations.of(context)!.empty_wishlist_msg,
                 style: AppThemes.bagEmptyListTitle,
               ),
             ),
             FadeAnimation(
               delay: 0.5,
               child: Text(
-                "Once you have added, come back:)",
+                AppLocalizations.of(context)!.empty_wishlist_desc,
                 style: AppThemes.bagEmptyListSubTitle,
               ),
             ),

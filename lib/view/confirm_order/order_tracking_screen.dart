@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:intl/intl.dart';
 import 'package:sneakers_app/view/navigator.dart';
 
 class OrderTrackingScreen extends StatefulWidget {
@@ -27,7 +29,7 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
                 if (!isFirst)
                   Container(
                     width: 2,
-                    height: 30,
+                    height: 20,
                     color: isCompleted ? Colors.black : Colors.grey,
                   ),
                 Container(
@@ -55,7 +57,7 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
                 if (!isLast)
                   Container(
                     width: 2,
-                    height: 30,
+                    height: 60,
                     color: isCompleted ? Colors.black : Colors.grey,
                   ),
               ],
@@ -96,6 +98,9 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String estimatedDate = DateFormat.yMMMd().format(
+      DateTime.now().add(Duration(days: 7)),
+    );
     return Scaffold(
       backgroundColor: Colors.white,
       body: CustomScrollView(
@@ -109,7 +114,7 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
               decoration: BoxDecoration(color: Colors.black),
               child: FlexibleSpaceBar(
                 title: Text(
-                  "Track Order",
+                  AppLocalizations.of(context)!.track_order,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
@@ -140,12 +145,12 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
                   child: Column(
                     children: [
                       Text(
-                        'Estimated Delivery',
+                        AppLocalizations.of(context)!.estimated_delivery,
                         style: TextStyle(fontSize: 14, color: Colors.grey),
                       ),
                       SizedBox(height: 8),
                       Text(
-                        'May 12, 2025',
+                        estimatedDate,
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
@@ -163,7 +168,7 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Text(
-                          'In Transit',
+                          AppLocalizations.of(context)!.in_transit,
                           style: TextStyle(
                             color: Colors.orangeAccent[400],
                             fontWeight: FontWeight.bold,
@@ -190,36 +195,56 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
                   child: Column(
                     children: [
                       _buildTimelineItem(
-                        status: "Order Placed",
-                        date: "April 19, 2025 - 10:30 AM",
+                        status: AppLocalizations.of(context)!.order_placed,
+                        date:
+                            DateFormat.yMMMd().format(DateTime.now()) +
+                            " " +
+                            DateFormat.jm().format(DateTime.now()),
                         description:
-                            "Your order has been confirmed and is being processed",
+                            AppLocalizations.of(context)!.order_placed_msg,
                         isCompleted: true,
                         isFirst: true,
                       ),
                       _buildTimelineItem(
-                        status: "Order Processed",
-                        date: "April 20, 2025 - 12:45 PM",
+                        status: AppLocalizations.of(context)!.order_processed,
+                        date: DateFormat.yMMMd().format(
+                          DateTime.now().add(Duration(days: 1)),
+                        ),
                         description:
-                            "Your order has been prepared for shipping",
+                            AppLocalizations.of(context)!.order_processed_msg,
                         isCompleted: true,
                       ),
                       _buildTimelineItem(
-                        status: "In Transit",
-                        date: "April 21, 2025 - 07:00 AM",
-                        description: "Your order is on its way to you",
+                        status: AppLocalizations.of(context)!.in_transit,
+                        date: DateFormat.yMMMd().format(
+                          DateTime.now().add(Duration(days: 2)),
+                        ),
+                        description:
+                            AppLocalizations.of(context)!.order_transit_msg,
                         isCompleted: true,
                       ),
                       _buildTimelineItem(
-                        status: "Out for Delivery",
-                        date: "Expected April 22, 2025",
-                        description: "Your order will be delivered today",
+                        status: AppLocalizations.of(context)!.out_for_delivery,
+                        date:
+                            "Expected " +
+                            DateFormat.yMMMd().format(
+                              DateTime.now().add(Duration(days: 4)),
+                            ),
+                        description:
+                            AppLocalizations.of(
+                              context,
+                            )!.order_out_for_delivery_msg,
                         isCompleted: false,
                       ),
                       _buildTimelineItem(
-                        status: "Delivered",
-                        date: "Expected April 22, 2025",
-                        description: "Your order has been delivered",
+                        status: AppLocalizations.of(context)!.delivered,
+                        date:
+                            "Expected " +
+                            DateFormat.yMMMd().format(
+                              DateTime.now().add(Duration(days: 7)),
+                            ),
+                        description:
+                            AppLocalizations.of(context)!.order_delivered_msg,
                         isCompleted: false,
                         isLast: true,
                       ),
@@ -245,7 +270,7 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Delivery Details",
+                        AppLocalizations.of(context)!.delivery_details,
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -272,7 +297,7 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Tracking Number",
+                                  AppLocalizations.of(context)!.tracking_number,
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: Colors.grey,
@@ -317,7 +342,9 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Delivery Address",
+                                  AppLocalizations.of(
+                                    context,
+                                  )!.delivery_address,
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: Colors.grey,
@@ -372,7 +399,10 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
                       MaterialPageRoute(builder: (context) => MainNavigator()),
                     );
                   },
-                  child: Text('Home'),
+                  child: Text(
+                    AppLocalizations.of(context)!.thank_you,
+                    style: TextStyle(fontSize: 20),
+                  ),
                   style: OutlinedButton.styleFrom(
                     padding: EdgeInsets.symmetric(vertical: 16),
                     side: BorderSide(color: Colors.black),

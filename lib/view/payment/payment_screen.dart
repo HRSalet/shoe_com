@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:sneakers_app/view/confirm_order/order_confirm_screen.dart';
 
 import '../../utils/constants.dart';
@@ -169,7 +170,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Saved Cards",
+                AppLocalizations.of(context)!.saved_cards,
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -178,7 +179,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
               ),
               TextButton.icon(
                 onPressed: () {},
-                label: Text('Add New'),
+                label: Text(AppLocalizations.of(context)!.add_new),
                 icon: Icon(Icons.add),
               ),
             ],
@@ -317,10 +318,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
               backgroundColor: Colors.transparent,
               flexibleSpace: Container(
                 decoration: const BoxDecoration(color: Colors.black),
-                child: const FlexibleSpaceBar(
+                child: FlexibleSpaceBar(
                   title: Text(
-                    'Payment',
-                    style: TextStyle(
+                    AppLocalizations.of(context)!.payment,
+                    style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
@@ -336,11 +337,23 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     padding: const EdgeInsets.all(16),
                     child: Row(
                       children: [
-                        _buildStep(1, 'Shipping', true),
+                        _buildStep(
+                          1,
+                          AppLocalizations.of(context)!.shipping,
+                          true,
+                        ),
                         _buildStepConnector(true),
-                        _buildStep(2, 'Payment', true),
+                        _buildStep(
+                          2,
+                          AppLocalizations.of(context)!.payment,
+                          true,
+                        ),
                         _buildStepConnector(true),
-                        _buildStep(3, 'Confirm', false),
+                        _buildStep(
+                          3,
+                          AppLocalizations.of(context)!.confirm,
+                          false,
+                        ),
                       ],
                     ),
                   ),
@@ -350,7 +363,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Payment Methods',
+                          AppLocalizations.of(context)!.payment_methods,
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -386,8 +399,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          "Order Summary",
+                        Text(
+                          AppLocalizations.of(context)!.order_summary,
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -396,20 +409,20 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         ),
                         const SizedBox(height: 12),
                         _buildSummaryRow(
-                          "Subtotal",
+                          AppLocalizations.of(context)!.subtotal,
                           "₹ ${widget.subTotal.toStringAsFixed(2)}",
                         ),
                         _buildSummaryRow(
-                          "Shipping",
+                          AppLocalizations.of(context)!.shipping,
                           "₹ ${widget.shippingCost.toStringAsFixed(2)}",
                         ),
                         _buildSummaryRow(
-                          "Tax",
+                          AppLocalizations.of(context)!.tax,
                           "₹ ${widget.taxAmount.toStringAsFixed(2)}",
                         ),
                         const Divider(height: 24),
                         _buildSummaryRow(
-                          "Total",
+                          AppLocalizations.of(context)!.total,
                           "₹ ${widget.total.toStringAsFixed(2)}",
                           isTotal: true,
                         ),
@@ -445,8 +458,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
               ),
             );
           },
-          child: const Text(
-            "Continue to Payment",
+          child: Text(
+            AppLocalizations.of(context)!.confirm_order,
             style: TextStyle(
               color: AppConstantsColor.lightTextColor,
               fontWeight: FontWeight.bold,

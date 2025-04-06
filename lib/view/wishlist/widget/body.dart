@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../animation/fadeanimation.dart';
 import '../../../data/dummy_data.dart';
@@ -130,7 +131,12 @@ class _WishlistBodyViewState extends State<WishlistBodyView>
         delay: 0,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [const Text("My Wishlist", style: AppThemes.bagTitle)],
+          children: [
+            Text(
+              AppLocalizations.of(context)!.my_wishlist,
+              style: AppThemes.bagTitle,
+            ),
+          ],
         ),
       ),
     );

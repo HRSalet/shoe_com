@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:sneakers_app/view/payment/payment_screen.dart';
 
 import '../../utils/app_methods.dart';
@@ -300,7 +301,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 decoration: BoxDecoration(color: Colors.black),
                 child: FlexibleSpaceBar(
                   title: Text(
-                    'Checkout',
+                    AppLocalizations.of(context)!.checkout,
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -317,11 +318,23 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     padding: EdgeInsets.all(16),
                     child: Row(
                       children: [
-                        _buildStep(1, 'Shipping', true),
+                        _buildStep(
+                          1,
+                          AppLocalizations.of(context)!.shipping,
+                          true,
+                        ),
                         _buildStepConnector(true),
-                        _buildStep(2, 'Payment', false),
+                        _buildStep(
+                          2,
+                          AppLocalizations.of(context)!.payment,
+                          false,
+                        ),
                         _buildStepConnector(false),
-                        _buildStep(3, 'Shipping', false),
+                        _buildStep(
+                          3,
+                          AppLocalizations.of(context)!.confirm,
+                          false,
+                        ),
                       ],
                     ),
                   ),
@@ -334,7 +347,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'Shipping Address',
+                              AppLocalizations.of(context)!.shipping_address,
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
@@ -346,7 +359,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                 foregroundColor: Colors.black,
                               ),
                               onPressed: () {},
-                              label: Text('Add new'),
+                              label: Text(
+                                AppLocalizations.of(context)!.add_new,
+                              ),
                               icon: Icon(Icons.add),
                             ),
                           ],
@@ -365,7 +380,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Delivery Method',
+                          AppLocalizations.of(context)!.delivery_method,
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -401,7 +416,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Order Summary",
+                          AppLocalizations.of(context)!.order_summary,
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -409,15 +424,21 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           ),
                         ),
                         SizedBox(height: 12),
-                        _buildSummaryRow("Subtotal", "₹ $subtotal"),
-                        _buildSummaryRow("Shipping", "₹ $shippingCost"),
                         _buildSummaryRow(
-                          "Tax",
+                          AppLocalizations.of(context)!.subtotal,
+                          "₹ $subtotal",
+                        ),
+                        _buildSummaryRow(
+                          AppLocalizations.of(context)!.shipping,
+                          "₹ $shippingCost",
+                        ),
+                        _buildSummaryRow(
+                          AppLocalizations.of(context)!.tax,
                           "₹ ${taxAmount.toStringAsFixed(2)}",
                         ),
                         Divider(height: 24),
                         _buildSummaryRow(
-                          "Total",
+                          AppLocalizations.of(context)!.total,
                           "₹ ${total.toStringAsFixed(2)}",
                           isTotal: true,
                         ),
@@ -453,7 +474,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             );
           },
           child: Text(
-            "Continue to Payment",
+            AppLocalizations.of(context)!.continue_to_payment,
             style: TextStyle(
               color: AppConstantsColor.lightTextColor,
               fontWeight: FontWeight.bold,

@@ -24,12 +24,18 @@ class AppMethods {
 
     if (contains == true) {
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
-      ScaffoldMessenger.of(context).showSnackBar(failedSnackBar());
+      ScaffoldMessenger.of(context).showSnackBar(emptySnackBar());
     } else {
       itemsOnWishlist.add(data);
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(successSnackBar());
     }
+  }
+
+  static void removeFromWish(Product data, BuildContext context) {
+    itemsOnWishlist.remove(data);
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(emptySnackBar());
   }
 
   static double sumOfItemsOnBag() {

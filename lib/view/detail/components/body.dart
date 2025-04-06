@@ -1,6 +1,5 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sized_box_for_whitespace, must_be_immutable, use_key_in_widget_constructors
-
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../../animation/fadeanimation.dart';
@@ -10,11 +9,13 @@ import '../../../data/dummy_data.dart';
 import '../../../models/models.dart';
 import '../../../theme/custom_app_theme.dart';
 import '../../../utils/app_methods.dart' show AppMethods;
+import '../../product_review/product_review_screen.dart';
 
 class DetailsBody extends StatefulWidget {
   Product productModel;
   bool isComeFromMoreSection;
   DetailsBody({
+    super.key,
     required this.productModel,
     required this.isComeFromMoreSection,
   });
@@ -26,12 +27,14 @@ class DetailsBody extends StatefulWidget {
 class details extends State<DetailsBody> {
   bool _isSelectedCountry = false;
   int? _isSelectedSize;
+  bool isFavorite = false;
+  int count = 0;
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    return Container(
+    return SizedBox(
       width: width,
       height: height * 1.1,
       child: SingleChildScrollView(
@@ -55,6 +58,8 @@ class details extends State<DetailsBody> {
                   shoeInfo(width, height),
                   SizedBox(height: 5),
                   moreDetailsText(width, height),
+                  SizedBox(height: 10),
+                  reviewWidget(width, height),
                   sizeTextAndCountry(width, height),
                   SizedBox(height: 10),
                   endSizesAndButton(width, height),
@@ -70,9 +75,35 @@ class details extends State<DetailsBody> {
     );
   }
 
+  reviewWidget(width, height) {
+    return FadeAnimation(
+      delay: 2.5,
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder:
+                  (context) =>
+                      ProductReviewsScreen(productId: widget.productModel.id),
+            ),
+          );
+        },
+        child: Row(
+          children: [
+            Text(
+              AppLocalizations.of(context)!.write_review,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   // Top information Widget Components
   topInformationWidget(width, height) {
-    return Container(
+    return SizedBox(
       width: width,
       height: height / 2.3,
       child: Stack(
@@ -111,9 +142,19 @@ class details extends State<DetailsBody> {
             right: 0,
             child: IconButton(
               onPressed: () {
-                AppMethods.addToWish(widget.productModel, context);
+                setState(() {
+                  if (isFavorite) {
+                    AppMethods.removeFromWish(widget.productModel, context);
+                  } else {
+                    AppMethods.addToWish(widget.productModel, context);
+                  }
+                  isFavorite = !isFavorite;
+                });
               },
-              icon: Icon(Icons.favorite_border_outlined),
+              icon: Icon(
+                isFavorite ? Icons.favorite : Icons.favorite_border_outlined,
+                color: isFavorite ? Colors.red : Colors.grey,
+              ),
             ),
           ),
           Positioned(
@@ -126,7 +167,7 @@ class details extends State<DetailsBody> {
                       : widget.productModel.imgAddress,
               child: RotationTransition(
                 turns: AlwaysStoppedAnimation(-25 / 360),
-                child: Container(
+                child: SizedBox(
                   width: width / 1.3,
                   height: height / 4.3,
                   child: Image.network(widget.productModel.imgAddress),
@@ -207,7 +248,7 @@ class details extends State<DetailsBody> {
           AppMethods.addToCart(widget.productModel, context);
         },
         child: Text(
-          "ADD TO BAG",
+          AppLocalizations.of(context)!.add_to_cart,
           style: TextStyle(color: AppConstantsColor.lightTextColor),
         ),
       ),
@@ -216,7 +257,7 @@ class details extends State<DetailsBody> {
 
   //end section Sizes And Button Components
   endSizesAndButton(width, height) {
-    return Container(
+    return SizedBox(
       width: width,
       height: height / 14,
       child: FadeAnimation(
@@ -231,23 +272,27 @@ class details extends State<DetailsBody> {
               ),
               child: Center(
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Text(
-                      "Try it",
-                      style: TextStyle(fontWeight: FontWeight.w800),
+                    Expanded(
+                      child: Text(
+                        AppLocalizations.of(context)!.try_it,
+                        style: TextStyle(fontWeight: FontWeight.w800),
+                      ),
+                      flex: 2,
                     ),
-                    SizedBox(width: 8),
-                    RotatedBox(
-                      quarterTurns: -1,
-                      child: FaIcon(FontAwesomeIcons.shoePrints),
+                    Expanded(
+                      child: RotatedBox(
+                        quarterTurns: -1,
+                        child: FaIcon(FontAwesomeIcons.shoePrints),
+                      ),
                     ),
                   ],
                 ),
               ),
             ),
             SizedBox(width: 15),
-            Container(
+            SizedBox(
               width: width / 1.5,
               child: ListView.builder(
                 physics: BouncingScrollPhysics(),
@@ -309,7 +354,7 @@ class details extends State<DetailsBody> {
       child: Row(
         children: [
           Text(
-            "Size",
+            AppLocalizations.of(context)!.size,
             style: TextStyle(
               fontWeight: FontWeight.bold,
               color: AppConstantsColor.darkTextColor,
@@ -317,7 +362,7 @@ class details extends State<DetailsBody> {
             ),
           ),
           Expanded(child: Container()),
-          Container(
+          SizedBox(
             width: width / 7,
             child: TextButton(
               onPressed: () {
@@ -339,7 +384,7 @@ class details extends State<DetailsBody> {
               ),
             ),
           ),
-          Container(
+          SizedBox(
             width: width / 5,
             child: TextButton(
               onPressed: () {
@@ -374,7 +419,10 @@ class details extends State<DetailsBody> {
         padding: EdgeInsets.only(right: 280),
         height: height / 26,
         child: FittedBox(
-          child: Text('MORE DETAILS', style: AppThemes.detailsMoreText),
+          child: Text(
+            AppLocalizations.of(context)!.more_details,
+            style: AppThemes.detailsMoreText,
+          ),
         ),
       ),
     );
@@ -384,7 +432,7 @@ class details extends State<DetailsBody> {
   shoeInfo(width, height) {
     return FadeAnimation(
       delay: 1.5,
-      child: Container(
+      child: SizedBox(
         width: width,
         height: height / 9,
         child: Text(
@@ -411,7 +459,7 @@ class details extends State<DetailsBody> {
           ),
           Expanded(child: Container()),
           Text(
-            '\₹${widget.productModel.price.toStringAsFixed(2)}',
+            '₹${widget.productModel.price.toStringAsFixed(2)}',
             style: AppThemes.detailsProductPrice,
           ),
         ],

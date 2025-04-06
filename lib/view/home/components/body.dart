@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
+import 'package:redacted/redacted.dart';
 import 'package:sneakers_app/theme/custom_app_theme.dart';
 import 'package:sneakers_app/view/detail/detail_screen.dart';
 
@@ -20,6 +22,7 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+  bool isLoading = true;
   int selectedIndexOfCategory = 0;
   List<Product> products = [];
   List<String> categories = [
@@ -41,7 +44,7 @@ class _BodyState extends State<Body> {
 
   Future<void> fetchProducts(String category) async {
     final String url =
-        "http://192.168.0.102/shoe_hive_db/index.php?category=$category";
+        "http://192.168.189.243/shoe_hive_db/index.php?category=$category";
     try {
       final response = await http.get(Uri.parse(url));
 
@@ -64,7 +67,6 @@ class _BodyState extends State<Body> {
             });
           }
         } else if (decodedData is List) {
-          // If the response is already a List
           setState(() {
             products =
                 decodedData.map((item) => Product.fromJson(item)).toList();
@@ -77,6 +79,9 @@ class _BodyState extends State<Body> {
       }
     } catch (error) {
       print("Error fetching products: $error");
+    } finally {
+      isLoading = false;
+      setState(() {});
     }
   }
 
@@ -166,19 +171,11 @@ class _BodyState extends State<Body> {
           children: [
             Padding(
               padding: const EdgeInsets.only(left: 10.0),
-              child: const Text("Discover", style: AppThemes.bagTitle),
+              child: Text(
+                AppLocalizations.of(context)!.discover,
+                style: AppThemes.bagTitle,
+              ),
             ),
-            // IconButton(
-            //   icon: FaIcon(
-            //     CupertinoIcons.search,
-            //     color: AppConstantsColor.darkTextColor,
-            //     size: 25,
-            //   ),
-            //   onPressed: () {
-            //     print('going for search');
-            //     showSearch(context: context, delegate: ShoeSearchDelegate());
-            //   },
-            // ),
           ],
         ),
       ),
@@ -186,9 +183,9 @@ class _BodyState extends State<Body> {
   }
 
   Widget productListView(double width, double height) {
-    if (products.isEmpty) {
-      return Center(child: CircularProgressIndicator());
-    }
+    // if (products.isEmpty) {
+    //   return Center(child: CircularProgressIndicator());
+    // }
     return Container(
       width: width,
       height: height / 2.4,
@@ -288,7 +285,7 @@ class _BodyState extends State<Body> {
           );
         },
       ),
-    );
+    ).redacted(context: context, redact: isLoading);
   }
 
   Widget moreTextWidget() {
@@ -296,7 +293,10 @@ class _BodyState extends State<Body> {
       margin: EdgeInsets.symmetric(horizontal: 20),
       child: Row(
         children: [
-          Text("More", style: AppThemes.homeMoreText),
+          Text(
+            AppLocalizations.of(context)!.more,
+            style: AppThemes.homeMoreText,
+          ),
           Expanded(child: Container()),
           IconButton(
             onPressed: () {
@@ -310,9 +310,9 @@ class _BodyState extends State<Body> {
   }
 
   Widget lastCategoriesWidget(double width, double height) {
-    if (products.isEmpty) {
-      return Center(child: CircularProgressIndicator());
-    }
+    // if (products.isEmpty) {
+    //   return Center(child: CircularProgressIndicator());
+    // }
     return Container(
       width: width,
       height: height / 4,
@@ -406,6 +406,6 @@ class _BodyState extends State<Body> {
           );
         },
       ),
-    );
+    ).redacted(context: context, redact: isLoading);
   }
 }
