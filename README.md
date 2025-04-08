@@ -1,6 +1,7 @@
 # sneakers_app
 
 A new Flutter project.
+Please make sure read a prerequisite file before run the application.
 
 ## Getting Started
 
