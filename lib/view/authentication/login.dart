@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:sneakers_app/view/authentication/forgot_password.dart';
 import 'package:sneakers_app/view/authentication/signup.dart';
 import 'package:sneakers_app/view/navigator.dart';
@@ -74,11 +75,15 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return AppLocalizations.of(context)!.please_enter_your_email;
+                          return AppLocalizations.of(
+                            context,
+                          )!.please_enter_your_email;
                         } else if (!RegExp(
                           r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}",
                         ).hasMatch(value)) {
-                          return AppLocalizations.of(context)!.enter_a_valid_email;
+                          return AppLocalizations.of(
+                            context,
+                          )!.enter_a_valid_email;
                         }
                         return null;
                       },
@@ -107,7 +112,9 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return AppLocalizations.of(context)!.please_enter_your_password;
+                          return AppLocalizations.of(
+                            context,
+                          )!.please_enter_your_password;
                         } else if (value.length < 8) {
                           return AppLocalizations.of(context)!.password_warning;
                         }
@@ -129,29 +136,30 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     );
                   }, // Implement forgot password functionality
-                  child: Text(AppLocalizations.of(context)!.forgotPassword,
+                  child: Text(
+                    AppLocalizations.of(context)!.forgotPassword,
                     style: TextStyle(color: Colors.black),
                   ),
                 ),
               ),
               const SizedBox(height: 20),
               _isLoading
-                  ? const CircularProgressIndicator()
+                  ? Center(child: SpinKitCircle(color: Colors.black, size: 40))
                   : ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(double.infinity, 50),
-                  backgroundColor: Colors.black,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(double.infinity, 50),
+                      backgroundColor: Colors.black,
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                    ),
+                    onPressed: _login,
+                    child: Text(
+                      AppLocalizations.of(context)!.signIn,
+                      style: TextStyle(fontSize: 18),
+                    ),
                   ),
-                ),
-                onPressed: _login,
-                child: Text(
-                  AppLocalizations.of(context)!.signIn,
-                  style: TextStyle(fontSize: 18),
-                ),
-              ),
               const SizedBox(height: 20),
               Row(
                 children: [

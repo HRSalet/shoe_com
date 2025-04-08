@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:sneakers_app/models/user_model.dart';
 
 import '../../models/user_service.dart';
@@ -145,6 +146,10 @@ class _SignupPageState extends State<SignupPage> {
                               return AppLocalizations.of(
                                 context,
                               )!.please_enter_your_phone;
+                            } else if (value.length != 10) {
+                              return AppLocalizations.of(
+                                context,
+                              )!.phone_warning;
                             }
                             return null;
                           },
@@ -189,7 +194,9 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                   const SizedBox(height: 20),
                   _isLoading
-                      ? const CircularProgressIndicator()
+                      ? Center(
+                        child: SpinKitCircle(color: Colors.black, size: 40),
+                      )
                       : ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           minimumSize: const Size(double.infinity, 50),

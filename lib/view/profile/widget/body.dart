@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
+import 'package:quickalert/quickalert.dart';
 import 'package:sneakers_app/controller/language_change_controller.dart';
 
 import '../../../animation/fadeanimation.dart';
@@ -39,19 +41,13 @@ class _ProfileBodyState extends State<ProfileBody> {
     final user = _auth.currentUser;
     if (user != null) {
       _emailController.text = user.email ?? "";
-      try {
-        DocumentSnapshot userDoc =
-            await _firestore.collection('Users').doc(user.uid).get();
-        if (userDoc.exists) {
-          _nameController.text = userDoc['name'] ?? "";
-          _phoneController.text = userDoc['phoneNo'] ?? "";
-          _dobController.text = userDoc['dateOfBirth'] ?? "";
-          _addressController.text = userDoc['address'] ?? "";
-        }
-      } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error loading user data: ${e.toString()}')),
-        );
+      DocumentSnapshot userDoc =
+          await _firestore.collection('Users').doc(user.uid).get();
+      if (userDoc.exists) {
+        _nameController.text = userDoc['name'] ?? "";
+        _phoneController.text = userDoc['phoneNo'] ?? "";
+        _dobController.text = userDoc['dateOfBirth'] ?? "";
+        _addressController.text = userDoc['address'] ?? "";
       }
     }
   }
@@ -150,7 +146,9 @@ class _ProfileBodyState extends State<ProfileBody> {
             const SizedBox(height: 15),
             mainProfile(),
             const SizedBox(height: 20),
-            _isLoading ? CircularProgressIndicator() : lastButton(),
+            _isLoading
+                ? Center(child: SpinKitCircle(color: Colors.black, size: 40))
+                : lastButton(),
           ],
         ),
       ),
@@ -244,6 +242,7 @@ class _ProfileBodyState extends State<ProfileBody> {
                   borderRadius: BorderRadius.circular(20),
                 ),
               ),
+              enabled: false,
             ),
             const SizedBox(height: 15),
             TextFormField(
@@ -267,6 +266,14 @@ class _ProfileBodyState extends State<ProfileBody> {
                   borderRadius: BorderRadius.circular(20),
                 ),
               ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return AppLocalizations.of(context)!.please_enter_your_phone;
+                } else if (value.length != 10) {
+                  return AppLocalizations.of(context)!.phone_warning;
+                }
+                return null;
+              },
             ),
             const SizedBox(height: 15),
             TextFormField(
@@ -336,7 +343,20 @@ class _ProfileBodyState extends State<ProfileBody> {
         ),
         SizedBox(height: 20),
         ElevatedButton(
-          onPressed: _deleteAccount,
+          //onPressed: _deleteAccount,
+          onPressed: () {
+            QuickAlert.show(
+              context: context,
+              type: QuickAlertType.error,
+              text:
+                  'Once you delete your account, you will no longer be able to access it or any of its associated data. Are you sure?',
+              title: 'Delete Account',
+              confirmBtnText: 'Yes',
+              confirmBtnColor: Colors.red,
+              onConfirmBtnTap: _deleteAccount,
+              animType: QuickAlertAnimType.slideInUp,
+            );
+          },
           child: Text(
             AppLocalizations.of(context)!.delete,
             style: TextStyle(fontWeight: FontWeight.bold),

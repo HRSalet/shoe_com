@@ -50,6 +50,7 @@ dependencies:
   flutter_localization: ^0.3.1
   provider:
   animation_list: ^3.1.0
+  flutter_spinkit: ^5.2.1
 
 dev_dependencies:
   flutter_test:

@@ -483,14 +483,16 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
                 Expanded(
                   child: OutlinedButton(
                     onPressed: () {
-                      Navigator.pushReplacement(
+                      Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => MainNavigator(),
                         ),
                       );
                     },
-                    child: Text(AppLocalizations.of(context)!.continue_shopping),
+                    child: Text(
+                      AppLocalizations.of(context)!.continue_shopping,
+                    ),
                     style: OutlinedButton.styleFrom(
                       padding: EdgeInsets.symmetric(vertical: 16),
                       side: BorderSide(color: Colors.black),

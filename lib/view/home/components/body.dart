@@ -1,9 +1,7 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:redacted/redacted.dart';
 import 'package:sneakers_app/theme/custom_app_theme.dart';
@@ -44,7 +42,7 @@ class _BodyState extends State<Body> {
 
   Future<void> fetchProducts(String category) async {
     final String url =
-        "http://192.168.189.243/shoe_hive_db/index.php?category=$category";
+        "http://192.168.0.103/shoe_hive_db/index.php?category=$category";
     try {
       final response = await http.get(Uri.parse(url));
 
@@ -296,13 +294,6 @@ class _BodyState extends State<Body> {
           Text(
             AppLocalizations.of(context)!.more,
             style: AppThemes.homeMoreText,
-          ),
-          Expanded(child: Container()),
-          IconButton(
-            onPressed: () {
-              setState(() {});
-            },
-            icon: FaIcon(CupertinoIcons.arrow_right, size: 27),
           ),
         ],
       ),

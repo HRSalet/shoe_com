@@ -15,6 +15,7 @@
   "phone_number" : "Phone number",
   "signup_snackbar" : "Sign-up successful! Please log in.",
   "please_enter_your_email" : "Please enter your email",
+  "phone_warning" : "Phone number must be of 10 digits",
   "password_warning" : "Password must be at least 8 characters",
   "discover" : "Discover",
   "more" : "More",

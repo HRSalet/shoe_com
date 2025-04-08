@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:sneakers_app/view/authentication/login.dart';
 import 'package:sneakers_app/view/navigator.dart';
 
@@ -15,7 +16,6 @@ class _SplashScreenState extends State<SplashScreen> {
     _checkUserStatus();
   }
 
-  /// Check if the user is already logged in
   Future<void> _checkUserStatus() async {
     await Future.delayed(
       Duration(seconds: 2),
@@ -23,7 +23,6 @@ class _SplashScreenState extends State<SplashScreen> {
     User? user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
-      // User is already logged in, navigate to home
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => MainNavigator()),
@@ -40,7 +39,9 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(child: CircularProgressIndicator()), // Loading indicator
+      body: Center(
+        child: SpinKitCircle(color: Colors.black, size: 100.0),
+      ), // Loading indicator
     );
   }
 }

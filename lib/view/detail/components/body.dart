@@ -42,7 +42,7 @@ class details extends State<DetailsBody> {
         child: Column(
           children: [
             topInformationWidget(width, height),
-            middleImgListWidget(width, height),
+            //middleImgListWidget(width, height),
             SizedBox(
               height: 20,
               width: width / 1.1,
@@ -191,47 +191,6 @@ class details extends State<DetailsBody> {
         color: Colors.grey[300],
       ),
       child: Image.network(widget.productModel.imgAddress),
-    );
-  }
-
-  // Middle Image List Widget Components
-  middleImgListWidget(width, height) {
-    return FadeAnimation(
-      delay: 0.5,
-      child: Container(
-        padding: EdgeInsets.all(2),
-        width: width,
-        height: height / 11,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            roundedImage(width, height),
-            roundedImage(width, height),
-            roundedImage(width, height),
-            Container(
-              padding: EdgeInsets.all(2),
-              width: width / 5,
-              height: height / 14,
-              decoration: BoxDecoration(
-                color: Colors.grey[300],
-                image: DecorationImage(
-                  image: NetworkImage(widget.productModel.imgAddress),
-                  fit: BoxFit.cover,
-                  colorFilter: ColorFilter.mode(Colors.grey, BlendMode.darken),
-                ),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Center(
-                child: Icon(
-                  Icons.play_circle_fill,
-                  color: AppConstantsColor.lightTextColor,
-                  size: 30,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 
