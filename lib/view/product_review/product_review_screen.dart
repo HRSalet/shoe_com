@@ -190,26 +190,24 @@ class _ProductReviewsScreenState extends State<ProductReviewsScreen> {
           borderRadius: BorderRadius.circular(20),
           color: Colors.black,
         ),
-        child: Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 10.0, bottom: 5.0),
-                child: Text(
-                  title,
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 10.0, bottom: 5.0),
+              child: Text(
+                title,
+                style: TextStyle(
+                  fontSize: 15,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-              row,
-              SizedBox(height: 10),
-            ],
-          ),
+            ),
+            row,
+            SizedBox(height: 10),
+          ],
         ),
       ),
     );

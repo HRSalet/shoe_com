@@ -42,7 +42,7 @@ class _BodyState extends State<Body> {
 
   Future<void> fetchProducts(String category) async {
     final String url =
-        "http://192.168.0.103/shoe_hive_db/index.php?category=$category";
+        "http://192.168.0.104/shoe_hive_db/index.php?category=$category";
     try {
       final response = await http.get(Uri.parse(url));
 
@@ -301,9 +301,6 @@ class _BodyState extends State<Body> {
   }
 
   Widget lastCategoriesWidget(double width, double height) {
-    // if (products.isEmpty) {
-    //   return Center(child: CircularProgressIndicator());
-    // }
     return Container(
       width: width,
       height: height / 4,
