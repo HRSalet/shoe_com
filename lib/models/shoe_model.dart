@@ -23,7 +23,7 @@ class Product {
       price:
           double.tryParse(json['price'].toString()) ?? 0.0, // Safe conversion
       imgAddress:
-          "http://192.168.0.104/shoe_hive_db/product_images/${json['imgAddress']}",
+          "http://192.168.0.102/shoe_hive_db/product_images/${json['imgAddress']}",
     );
   }
 }

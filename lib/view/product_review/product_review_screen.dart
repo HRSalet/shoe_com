@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class ProductReviewsScreen extends StatefulWidget {
   final String productId;
@@ -73,7 +74,7 @@ class _ProductReviewsScreenState extends State<ProductReviewsScreen> {
           FutureBuilder<double>(
             future: _calculateAverageRating(),
             builder: (context, snapshot) {
-              if (!snapshot.hasData) return CircularProgressIndicator();
+              if (!snapshot.hasData) return SpinKitCircle(color: Colors.black, size: 40);
               return Padding(
                 padding: const EdgeInsets.only(top: 20.0),
                 child: Text(
@@ -96,7 +97,7 @@ class _ProductReviewsScreenState extends State<ProductReviewsScreen> {
                       .snapshots(),
               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (!snapshot.hasData) {
-                  return Center(child: CircularProgressIndicator());
+                  return Center(child: SpinKitCircle(color: Colors.black, size: 40),);
                 }
                 return AnimationList(
                   animationDirection: AnimationDirection.vertical,

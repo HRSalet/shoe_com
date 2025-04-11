@@ -42,7 +42,6 @@ class details extends State<DetailsBody> {
         child: Column(
           children: [
             topInformationWidget(width, height),
-            //middleImgListWidget(width, height),
             SizedBox(
               height: 20,
               width: width / 1.1,
@@ -180,7 +179,6 @@ class details extends State<DetailsBody> {
     );
   }
 
-  // Rounded Image Widget About Below method Components
   roundedImage(width, height) {
     return Container(
       padding: EdgeInsets.all(2),
@@ -194,7 +192,6 @@ class details extends State<DetailsBody> {
     );
   }
 
-  //MaterialButton Components
   materialButton(width, height) {
     return FadeAnimation(
       delay: 3.5,
@@ -214,7 +211,6 @@ class details extends State<DetailsBody> {
     );
   }
 
-  //end section Sizes And Button Components
   endSizesAndButton(width, height) {
     return SizedBox(
       width: width,
@@ -306,7 +302,6 @@ class details extends State<DetailsBody> {
     );
   }
 
-  //Size Text And Country Button Components
   sizeTextAndCountry(width, height) {
     return FadeAnimation(
       delay: 2.5,
@@ -370,7 +365,6 @@ class details extends State<DetailsBody> {
     );
   }
 
-  //more details Text Components
   moreDetailsText(width, height) {
     return FadeAnimation(
       delay: 2,
@@ -387,7 +381,6 @@ class details extends State<DetailsBody> {
     );
   }
 
-  //About Shoe Text Components
   shoeInfo(width, height) {
     return FadeAnimation(
       delay: 1.5,
