@@ -135,7 +135,7 @@ class _LoginPageState extends State<LoginPage> {
                         builder: (context) => ForgotPasswordScreen(),
                       ),
                     );
-                  }, // Implement forgot password functionality
+                  },
                   child: Text(
                     AppLocalizations.of(context)!.forgotPassword,
                     style: TextStyle(color: Colors.black),

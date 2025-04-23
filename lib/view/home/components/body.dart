@@ -181,9 +181,6 @@ class _BodyState extends State<Body> {
   }
 
   Widget productListView(double width, double height) {
-    // if (products.isEmpty) {
-    //   return Center(child: CircularProgressIndicator());
-    // }
     return Container(
       width: width,
       height: height / 2.4,

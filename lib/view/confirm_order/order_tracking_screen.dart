@@ -29,7 +29,7 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
                 if (!isFirst)
                   Container(
                     width: 2,
-                    height: 20,
+                    height: 30,
                     color: isCompleted ? Colors.black : Colors.grey,
                   ),
                 Container(
@@ -57,7 +57,7 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
                 if (!isLast)
                   Container(
                     width: 2,
-                    height: 60,
+                    height: 30,
                     color: isCompleted ? Colors.black : Colors.grey,
                   ),
               ],

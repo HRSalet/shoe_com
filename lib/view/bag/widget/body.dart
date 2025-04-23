@@ -49,7 +49,6 @@ class _BodyBagViewState extends State<BodyBagView>
     );
   }
 
-  // Top Texts Components
   topText(width, height) {
     return SizedBox(
       width: width,
@@ -140,11 +139,11 @@ class _BodyBagViewState extends State<BodyBagView>
                                 setState(() {
                                   if (currentBagItem.quantity > 1) {
                                     currentBagItem.quantity -=
-                                        1; // Decrease quantity
+                                        1;
                                   } else {
                                     itemsOnBag.remove(
                                       currentBagItem,
-                                    ); // Remove item if quantity is 1
+                                    );
                                   }
                                 });
                               },
@@ -170,7 +169,7 @@ class _BodyBagViewState extends State<BodyBagView>
                               onTap: () {
                                 setState(() {
                                   currentBagItem.quantity +=
-                                      1; // Increase quantity
+                                      1;
                                 });
                               },
                               child: Container(

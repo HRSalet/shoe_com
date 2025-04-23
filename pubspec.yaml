@@ -38,6 +38,7 @@ dependencies:
   custom_navigation_bar:
   supercharged:
   simple_animations: ^5.1.0
+  video_player: ^2.9.5
   firebase_auth: ^5.5.1
   firebase_core: ^3.12.1
   carousel_slider:
@@ -55,6 +56,14 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.14.3
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/Logo.png"
+  adaptive_icon_background: "#ffffff"
+  adaptive_icon_foreground: "assets/images/play_store_512.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -84,6 +93,7 @@ flutter:
     - assets/images/campus/
     - assets/images/woodland/
     - assets/images/reebok/
+    - assets/images/splash_video.mp4
 
   fonts:
     - family: OpenSans

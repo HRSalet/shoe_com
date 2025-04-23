@@ -29,14 +29,12 @@ class _SignupPageState extends State<SignupPage> {
     setState(() => _isLoading = true);
 
     try {
-      // Create user in Firebase Auth
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
             email: _emailController.text.trim(),
             password: _passwordController.text.trim(),
           );
 
-      // Store user data in Firestore
       UserModel user = UserModel(
         id: userCredential.user!.uid,
         name: _nameController.text.trim(),

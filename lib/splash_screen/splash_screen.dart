@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:sneakers_app/view/authentication/login.dart';
 import 'package:sneakers_app/view/navigator.dart';
+import 'package:video_player/video_player.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -10,25 +10,34 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  late VideoPlayerController _controller;
+
   @override
   void initState() {
     super.initState();
-    _checkUserStatus();
+
+    _controller = VideoPlayerController.asset('assets/images/splash_video.mp4')
+      ..initialize().then((_) {
+        setState(() {});
+        _controller.play();
+        _controller.setLooping(false);
+      });
+
+    _controller.addListener(() {
+      if (_controller.value.position == _controller.value.duration) {
+        _checkUserStatus();
+      }
+    });
   }
 
   Future<void> _checkUserStatus() async {
-    await Future.delayed(
-      Duration(seconds: 2),
-    ); // Optional delay for splash effect
     User? user = FirebaseAuth.instance.currentUser;
-
     if (user != null) {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => MainNavigator()),
       );
     } else {
-      // User is NOT logged in, show login page
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => LoginPage()),
@@ -37,11 +46,27 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: SpinKitCircle(color: Colors.black, size: 100.0),
-      ), // Loading indicator
+      body:
+          _controller.value.isInitialized
+              ? SizedBox.expand(
+                child: FittedBox(
+                  fit: BoxFit.cover,
+                  child: SizedBox(
+                    width: _controller.value.size.width,
+                    height: _controller.value.size.height,
+                    child: VideoPlayer(_controller),
+                  ),
+                ),
+              )
+              : Center(child: CircularProgressIndicator()),
     );
   }
 }

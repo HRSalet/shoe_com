@@ -343,7 +343,6 @@ class _ProfileBodyState extends State<ProfileBody> {
         ),
         SizedBox(height: 20),
         ElevatedButton(
-          //onPressed: _deleteAccount,
           onPressed: () {
             QuickAlert.show(
               context: context,

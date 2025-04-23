@@ -100,7 +100,6 @@ class details extends State<DetailsBody> {
     );
   }
 
-  // Top information Widget Components
   topInformationWidget(width, height) {
     return SizedBox(
       width: width,
@@ -395,7 +394,6 @@ class details extends State<DetailsBody> {
     );
   }
 
-  //Name And Price Text Components
   nameAndPrice() {
     return FadeAnimation(
       delay: 1,

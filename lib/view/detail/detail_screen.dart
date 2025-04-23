@@ -18,7 +18,6 @@ class DetailScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: AppConstantsColor.backgroundColor,
-        //appBar: customAppBarDe(context, productModel.model, productModel),
         body: DetailsBody(
           productModel: productModel,
           isComeFromMoreSection: isComeFromMoreSection,
