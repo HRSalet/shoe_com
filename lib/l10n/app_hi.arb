@@ -89,5 +89,6 @@
   "review_snackbar" : "समीक्षा खाली नहीं रह सकती!",
   "rating_reviews" : "रेटिंग एवं समीक्षाएँ",
   "reset_password" : "पासवर्ड रीसेट",
-  "back_to_login" : "लॉगिन पर वापस जाएं"
+  "back_to_login" : "लॉगिन पर वापस जाएं",
+  "scan_to_pay" : "भुगतान करने के लिए QR स्कैन करें"
 }

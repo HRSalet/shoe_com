@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:sneakers_app/view/confirm_order/order_confirm_screen.dart';
 
 import '../../utils/constants.dart';
@@ -198,6 +199,41 @@ class _PaymentScreenState extends State<PaymentScreen> {
     );
   }
 
+  Widget _buildQRCode() {
+    if (_selectedPaymentMethod == 0) return SizedBox.shrink();
+
+    String paymentTitle =
+        paymentMethods[_selectedPaymentMethod]['title'] as String;
+    String qrData =
+        'Payment of ₹ ${widget.total.toStringAsFixed(2)} via $paymentTitle is successful.';
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            AppLocalizations.of(context)!.scan_to_pay,
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
+          ),
+          const SizedBox(height: 12),
+          Center(
+            child: QrImageView(
+              data: qrData,
+              version: QrVersions.auto,
+              size: 200.0,
+              backgroundColor: Colors.white,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildCreditCard(int index) {
     final isSelected = _selectedCard == index;
     return GestureDetector(
@@ -382,6 +418,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     ),
                   ),
                   _buildSavedCards(),
+                  _buildQRCode(),
                   Container(
                     margin: const EdgeInsets.all(16),
                     padding: const EdgeInsets.all(16),

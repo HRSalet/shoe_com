@@ -92,5 +92,6 @@
   "review_snackbar" : "સમીક્ષા ખાલી ન હોઈ શકે!",
   "rating_reviews" : "રેટિંગ્સ અને સમીક્ષાઓ",
   "reset_password" : "પાસવર્ડ રીસેટ કરો",
-  "back_to_login" : "લૉગિન પર પાછા જાઓ"
+  "back_to_login" : "લૉગિન પર પાછા જાઓ",
+  "scan_to_pay" : "ચુકવણી કરવા માટે QR સ્કેન કરો"
 }

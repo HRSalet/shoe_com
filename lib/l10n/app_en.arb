@@ -92,5 +92,6 @@
   "review_snackbar" : "Review cannot be empty!",
   "rating_reviews" : "Ratings & Reviews",
   "reset_password" : "Reset Password",
-  "back_to_login" : "Back to Login"
+  "back_to_login" : "Back to Login",
+  "scan_to_pay" : "Scan QR to Pay"
 }

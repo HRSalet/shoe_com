@@ -22,7 +22,7 @@ class Product {
       model: json['model'] ?? "Unknown",
       price: double.tryParse(json['price'].toString()) ?? 0.0,
       imgAddress:
-          "http://192.168.0.102/shoe_hive_db/product_images/${json['imgAddress']}",
+          "http://192.168.0.100/shoe_hive_db/product_images/${json['imgAddress']}",
     );
   }
 }
