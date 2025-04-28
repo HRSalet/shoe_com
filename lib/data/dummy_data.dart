@@ -6,4 +6,4 @@ List<Product> itemsOnWishlist = [];
 
 final List featured = ['New', 'Featured', 'Upcoming'];
 
-final List<double> sizes = [6, 7.5, 8, 9.5];
+final List<int> sizes = [6, 7, 8, 9, 10, 11, 12];

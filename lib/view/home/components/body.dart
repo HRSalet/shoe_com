@@ -221,7 +221,21 @@ class _BodyState extends State<Body> {
                       delay: 1,
                       child: Row(
                         children: [
-                          Text(product.name, style: AppThemes.homeProductName),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: 2.0,
+                              top: 12.0,
+                            ),
+                            child: Text(
+                              product.name,
+                              style: TextStyle(
+                                fontFamily: 'Quicksand',
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),

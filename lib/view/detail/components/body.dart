@@ -55,8 +55,6 @@ class details extends State<DetailsBody> {
                   nameAndPrice(),
                   SizedBox(height: 10),
                   shoeInfo(width, height),
-                  SizedBox(height: 5),
-                  moreDetailsText(width, height),
                   SizedBox(height: 10),
                   reviewWidget(width, height),
                   sizeTextAndCountry(width, height),
@@ -67,32 +65,6 @@ class details extends State<DetailsBody> {
                   SizedBox(height: 20),
                 ],
               ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  reviewWidget(width, height) {
-    return FadeAnimation(
-      delay: 2.5,
-      child: GestureDetector(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder:
-                  (context) =>
-                      ProductReviewsScreen(productId: widget.productModel.id),
-            ),
-          );
-        },
-        child: Row(
-          children: [
-            Text(
-              AppLocalizations.of(context)!.write_review,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
           ],
         ),
@@ -178,121 +150,74 @@ class details extends State<DetailsBody> {
     );
   }
 
-  roundedImage(width, height) {
-    return Container(
-      padding: EdgeInsets.all(2),
-      width: width / 5,
-      height: height / 14,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: Colors.grey[300],
+  nameAndPrice() {
+    return FadeAnimation(
+      delay: 1,
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 5.0),
+            child: Text(
+              widget.productModel.model,
+              style: TextStyle(
+                fontSize: 21,
+                fontWeight: FontWeight.bold,
+                color: AppConstantsColor.darkTextColor,
+              ),
+            ),
+          ),
+          Expanded(child: Container()),
+          Padding(
+            padding: const EdgeInsets.only(right: 5.0),
+            child: Text(
+              '₹${widget.productModel.price.toStringAsFixed(2)}',
+              style: AppThemes.detailsProductPrice,
+            ),
+          ),
+        ],
       ),
-      child: Image.network(widget.productModel.imgAddress),
     );
   }
 
-  materialButton(width, height) {
+  shoeInfo(width, height) {
     return FadeAnimation(
-      delay: 3.5,
-      child: MaterialButton(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        minWidth: width / 1.2,
-        height: height / 15,
-        color: AppConstantsColor.materialButtonColor,
-        onPressed: () {
-          AppMethods.addToCart(widget.productModel, context);
-        },
-        child: Text(
-          AppLocalizations.of(context)!.add_to_cart,
-          style: TextStyle(color: AppConstantsColor.lightTextColor),
+      delay: 1.5,
+      child: SizedBox(
+        width: width,
+        height: height / 9,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 5.0, right: 5.0),
+          child: Text(
+            "A shoe is an item of footwear intended to protect and comfort the human foot. Though the human foot can adapt to varied terrains and climate conditions, it is vulnerable, and shoes provide protection. Form was originally tied to function, but over time, shoes also became fashion items.",
+            style: AppThemes.detailsProductDescriptions,
+            textAlign: TextAlign.justify,
+          ),
         ),
       ),
     );
   }
 
-  endSizesAndButton(width, height) {
-    return SizedBox(
-      width: width,
-      height: height / 14,
-      child: FadeAnimation(
-        delay: 3,
+  reviewWidget(width, height) {
+    return FadeAnimation(
+      delay: 2.5,
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder:
+                  (context) =>
+                      ProductReviewsScreen(productId: widget.productModel.id),
+            ),
+          );
+        },
         child: Row(
           children: [
-            Container(
-              width: width / 4.5,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: Colors.grey, width: 1),
-              ),
-              child: Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        AppLocalizations.of(context)!.try_it,
-                        style: TextStyle(fontWeight: FontWeight.w800),
-                      ),
-                      flex: 2,
-                    ),
-                    Expanded(
-                      child: RotatedBox(
-                        quarterTurns: -1,
-                        child: FaIcon(FontAwesomeIcons.shoePrints),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(width: 15),
-            SizedBox(
-              width: width / 1.5,
-              child: ListView.builder(
-                physics: BouncingScrollPhysics(),
-                itemCount: 4,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (ctx, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _isSelectedSize = index;
-                      });
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(right: 5),
-                      width: width / 4.4,
-                      height: height / 13,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color:
-                              _isSelectedSize == index
-                                  ? Colors.black
-                                  : Colors.grey,
-                          width: 1.5,
-                        ),
-                        color:
-                            _isSelectedSize == index
-                                ? Colors.black
-                                : AppConstantsColor.backgroundColor,
-                      ),
-                      child: Center(
-                        child: Text(
-                          sizes[index].toString(),
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color:
-                                _isSelectedSize == index
-                                    ? Colors.white
-                                    : Colors.black,
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                },
+            Padding(
+              padding: const EdgeInsets.only(left: 5.0),
+              child: Text(
+                AppLocalizations.of(context)!.write_review,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
             ),
           ],
@@ -306,12 +231,15 @@ class details extends State<DetailsBody> {
       delay: 2.5,
       child: Row(
         children: [
-          Text(
-            AppLocalizations.of(context)!.size,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: AppConstantsColor.darkTextColor,
-              fontSize: 22,
+          Padding(
+            padding: const EdgeInsets.only(left: 5.0),
+            child: Text(
+              AppLocalizations.of(context)!.size,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: AppConstantsColor.darkTextColor,
+                fontSize: 22,
+              ),
             ),
           ),
           Expanded(child: Container()),
@@ -364,55 +292,115 @@ class details extends State<DetailsBody> {
     );
   }
 
-  moreDetailsText(width, height) {
-    return FadeAnimation(
-      delay: 2,
-      child: Container(
-        padding: EdgeInsets.only(right: 280),
-        height: height / 26,
-        child: FittedBox(
-          child: Text(
-            AppLocalizations.of(context)!.more_details,
-            style: AppThemes.detailsMoreText,
+  endSizesAndButton(width, height) {
+    return SizedBox(
+      width: width,
+      height: height / 14,
+      child: FadeAnimation(
+        delay: 3,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 5.0),
+          child: Row(
+            children: [
+              Container(
+                width: width / 4.5,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: Colors.grey, width: 1),
+                ),
+                child: Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          AppLocalizations.of(context)!.try_it,
+                          style: TextStyle(fontWeight: FontWeight.w800),
+                        ),
+                        flex: 2,
+                      ),
+                      Expanded(
+                        child: RotatedBox(
+                          quarterTurns: -1,
+                          child: FaIcon(FontAwesomeIcons.shoePrints),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(width: 15),
+              SizedBox(
+                width: width / 1.5,
+                child: ListView.builder(
+                  physics: BouncingScrollPhysics(),
+                  itemCount: sizes.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (ctx, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _isSelectedSize = index;
+                        });
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(right: 5),
+                        width: width / 4.4,
+                        height: height / 13,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color:
+                                _isSelectedSize == index
+                                    ? Colors.black
+                                    : Colors.grey,
+                            width: 1.5,
+                          ),
+                          color:
+                              _isSelectedSize == index
+                                  ? Colors.black
+                                  : AppConstantsColor.backgroundColor,
+                        ),
+                        child: Center(
+                          child: Text(
+                            sizes[index].toString(),
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color:
+                                  _isSelectedSize == index
+                                      ? Colors.white
+                                      : Colors.black,
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
         ),
       ),
     );
   }
 
-  shoeInfo(width, height) {
+  materialButton(width, height) {
     return FadeAnimation(
-      delay: 1.5,
-      child: SizedBox(
-        width: width,
-        height: height / 9,
+      delay: 3.5,
+      child: MaterialButton(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        minWidth: width / 1.2,
+        height: height / 15,
+        color: AppConstantsColor.materialButtonColor,
+        onPressed: () {
+          AppMethods.addToCart(widget.productModel, context);
+        },
         child: Text(
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tincidunt laoreet enim, eget sodales ligula semper at. Sed id aliquet eros, nec vestibulum felis. Nunc maximus aliquet aliquam. Quisque eget sapien at velit cursus tincidunt. Duis tempor lacinia erat eget fermentum.",
-          style: AppThemes.detailsProductDescriptions,
+          AppLocalizations.of(context)!.add_to_cart,
+          style: TextStyle(color: AppConstantsColor.lightTextColor),
         ),
-      ),
-    );
-  }
-
-  nameAndPrice() {
-    return FadeAnimation(
-      delay: 1,
-      child: Row(
-        children: [
-          Text(
-            widget.productModel.model,
-            style: TextStyle(
-              fontSize: 21,
-              fontWeight: FontWeight.bold,
-              color: AppConstantsColor.darkTextColor,
-            ),
-          ),
-          Expanded(child: Container()),
-          Text(
-            '₹${widget.productModel.price.toStringAsFixed(2)}',
-            style: AppThemes.detailsProductPrice,
-          ),
-        ],
       ),
     );
   }

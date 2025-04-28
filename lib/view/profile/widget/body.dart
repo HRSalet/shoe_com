@@ -227,150 +227,158 @@ class _ProfileBodyState extends State<ProfileBody> {
   }
 
   mainProfile() {
-    return Form(
-      key: _formKey,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      child: Padding(
-        padding: const EdgeInsets.only(left: 12, right: 12),
-        child: Column(
-          children: [
-            TextFormField(
-              controller: _nameController,
-              decoration: InputDecoration(
-                labelText: AppLocalizations.of(context)!.name,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
+    return FadeAnimation(
+      delay: 1,
+      child: Form(
+        key: _formKey,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 12, right: 12),
+          child: Column(
+            children: [
+              TextFormField(
+                controller: _nameController,
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context)!.name,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                enabled: false,
+              ),
+              const SizedBox(height: 15),
+              TextFormField(
+                controller: _emailController,
+                keyboardType: TextInputType.emailAddress,
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context)!.email,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                enabled: false,
+              ),
+              const SizedBox(height: 15),
+              TextFormField(
+                keyboardType: TextInputType.phone,
+                controller: _phoneController,
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context)!.phone_number,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return AppLocalizations.of(
+                      context,
+                    )!.please_enter_your_phone;
+                  } else if (value.length != 10) {
+                    return AppLocalizations.of(context)!.phone_warning;
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 15),
+              TextFormField(
+                controller: _dobController,
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context)!.dob,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.calendar_today),
+                    onPressed: () => _selectDate(context),
+                  ),
                 ),
               ),
-              enabled: false,
-            ),
-            const SizedBox(height: 15),
-            TextFormField(
-              controller: _emailController,
-              keyboardType: TextInputType.emailAddress,
-              decoration: InputDecoration(
-                labelText: AppLocalizations.of(context)!.email,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
+              const SizedBox(height: 15),
+              TextFormField(
+                controller: _addressController,
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context)!.address,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                 ),
               ),
-              enabled: false,
-            ),
-            const SizedBox(height: 15),
-            TextFormField(
-              keyboardType: TextInputType.phone,
-              controller: _phoneController,
-              decoration: InputDecoration(
-                labelText: AppLocalizations.of(context)!.phone_number,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-              ),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return AppLocalizations.of(context)!.please_enter_your_phone;
-                } else if (value.length != 10) {
-                  return AppLocalizations.of(context)!.phone_warning;
-                }
-                return null;
-              },
-            ),
-            const SizedBox(height: 15),
-            TextFormField(
-              controller: _dobController,
-              decoration: InputDecoration(
-                labelText: AppLocalizations.of(context)!.dob,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                suffixIcon: IconButton(
-                  icon: Icon(Icons.calendar_today),
-                  onPressed: () => _selectDate(context),
-                ),
-              ),
-            ),
-            const SizedBox(height: 15),
-            TextFormField(
-              controller: _addressController,
-              decoration: InputDecoration(
-                labelText: AppLocalizations.of(context)!.address,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 
   lastButton() {
-    return Column(
-      children: [
-        ElevatedButton(
-          onPressed: _updateUserDetails,
-          child: Text(
-            AppLocalizations.of(context)!.save_changes,
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          style: ElevatedButton.styleFrom(
-            minimumSize: const Size(150, 50),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(50),
+    return FadeAnimation(
+      delay: 2,
+      child: Column(
+        children: [
+          ElevatedButton(
+            onPressed: _updateUserDetails,
+            child: Text(
+              AppLocalizations.of(context)!.save_changes,
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            elevation: 8.0,
-            backgroundColor: Colors.black,
-            foregroundColor: Colors.white,
-          ),
-        ),
-        SizedBox(height: 20),
-        ElevatedButton(
-          onPressed: _logout,
-          child: Text(
-            AppLocalizations.of(context)!.logout,
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          style: ElevatedButton.styleFrom(
-            minimumSize: const Size(150, 50),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(50),
+            style: ElevatedButton.styleFrom(
+              minimumSize: const Size(150, 50),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(50),
+              ),
+              elevation: 8.0,
+              backgroundColor: Colors.black,
+              foregroundColor: Colors.white,
             ),
-            elevation: 8.0,
-            backgroundColor: Colors.orangeAccent,
-            foregroundColor: Colors.white,
           ),
-        ),
-        SizedBox(height: 20),
-        ElevatedButton(
-          onPressed: () {
-            QuickAlert.show(
-              context: context,
-              type: QuickAlertType.error,
-              text:
-                  'Once you delete your account, you will no longer be able to access it or any of its associated data. Are you sure?',
-              title: 'Delete Account',
-              confirmBtnText: 'Yes',
-              confirmBtnColor: Colors.red,
-              onConfirmBtnTap: _deleteAccount,
-              animType: QuickAlertAnimType.slideInUp,
-            );
-          },
-          child: Text(
-            AppLocalizations.of(context)!.delete,
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          style: ElevatedButton.styleFrom(
-            minimumSize: const Size(150, 50),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(50),
+          SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: _logout,
+            child: Text(
+              AppLocalizations.of(context)!.logout,
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            elevation: 8.0,
-            backgroundColor: Colors.red,
-            foregroundColor: Colors.white,
+            style: ElevatedButton.styleFrom(
+              minimumSize: const Size(150, 50),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(50),
+              ),
+              elevation: 8.0,
+              backgroundColor: Colors.orangeAccent,
+              foregroundColor: Colors.white,
+            ),
           ),
-        ),
-      ],
+          SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () {
+              QuickAlert.show(
+                context: context,
+                type: QuickAlertType.error,
+                text:
+                    'Once you delete your account, you will no longer be able to access it or any of its associated data. Are you sure?',
+                title: 'Delete Account',
+                confirmBtnText: 'Yes',
+                confirmBtnColor: Colors.red,
+                onConfirmBtnTap: _deleteAccount,
+                animType: QuickAlertAnimType.slideInUp,
+              );
+            },
+            child: Text(
+              AppLocalizations.of(context)!.delete,
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            style: ElevatedButton.styleFrom(
+              minimumSize: const Size(150, 50),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(50),
+              ),
+              elevation: 8.0,
+              backgroundColor: Colors.red,
+              foregroundColor: Colors.white,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
